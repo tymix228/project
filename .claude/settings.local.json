@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell(Get-Command npx -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-ChildItem \"c:\\\\Users\\\\tymon\\\\OneDrive\\\\Pulpit\\\\cursor\\\\PROJECT\" -Recurse -File | Where-Object { $_.Extension -in '.ts', '.tsx', '.js', '.json', '.css', '.svg' } | Select-Object FullName | ForEach-Object { $_.FullName.Replace\\(\"c:\\\\Users\\\\tymon\\\\OneDrive\\\\Pulpit\\\\cursor\\\\PROJECT\\\\\", \"\"\\) } | Sort-Object)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git branch *)",
+      "Bash(git remote *)"
+    ]
+  }
+}

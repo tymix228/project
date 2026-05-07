@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   CSS VARIABLES — dark/light theme
+   ============================================ */
+:root {
+  --color-primary:    #00F5FF;
+  --color-secondary:  #B400FF;
+  --color-bg:         #F0F4FF;
+  --color-surface:    #FFFFFF;
+  --color-text:       #1A1A2E;
+  --color-text-muted: #64748B;
+  --color-border:     #E2E8F0;
+  --gradient-gaming:  linear-gradient(135deg, #00F5FF, #B400FF);
+}
+
+.dark {
+  --color-bg:         #080B14;
+  --color-surface:    #0D1117;
+  --color-text:       #E2E8FF;
+  --color-text-muted: #8892B0;
+  --color-border:     #1C2333;
+}
+
+/* ============================================
+   SCROLLBAR — gamingowy styl
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #080B14;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #00F5FF, #B400FF);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00F5FF;
+}
+
+/* ============================================
+   GLOBAL BASE STYLES
+   ============================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-inter), sans-serif;
+}
+
+/* ============================================
+   ANIMACJE KEYFRAMES
+   ============================================ */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 245, 255, 0.4); }
+  50%       { box-shadow: 0 0 40px rgba(0, 245, 255, 0.8), 0 0 60px rgba(0, 245, 255, 0.2); }
+}
+
+@keyframes scan-line {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 0.05; }
+  90%  { opacity: 0.05; }
+  100% { transform: translateY(200%); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes border-flow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Gradient tekst */
+.gradient-text {
+  background: linear-gradient(135deg, #00F5FF, #B400FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glassmorphism karta */
+.glass-card {
+  background: rgba(13, 17, 23, 0.7);
+  border: 1px solid rgba(0, 245, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass-card {
+  background: rgba(13, 17, 23, 0.7);
+}
+
+/* Neon glow border na hover */
+.neon-border-hover {
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.neon-border-hover:hover {
+  border-color: rgba(0, 245, 255, 0.4);
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.15);
+}
+
+/* Siatka tła (hero) */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(90deg, #1C2333 25%, #253347 50%, #1C2333 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* Linia skanowania (CRT efekt) */
+.scan-line-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 245, 255, 0.05), transparent);
+  animation: scan-line 4s linear infinite;
+  pointer-events: none;
+}
+
+/* Niestandardowe zaznaczenie tekstu */
+::selection {
+  background: rgba(0, 245, 255, 0.3);
+  color: #fff;
+}
