@@ -72,7 +72,8 @@ export default async function AdminOrdersPage() {
               </div>
 
               <div className="mt-4 pt-4 border-t border-dark-border">
-                <a href={`mailto:${order.email}?subject=Odpowiedź na zamówienie wydruku`}
+                <a href={`https://mail.google.com/mail/?view=cm&to=${order.email}&su=Odpowiedź na zamówienie wydruku`}
+                  target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-gaming text-white text-sm font-medium hover:opacity-90 transition-all">
                   ✉️ Odpowiedz klientowi
                 </a>
