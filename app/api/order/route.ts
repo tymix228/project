@@ -1,27 +1,19 @@
 import { NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 
-export const runtime = 'nodejs'
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: Request) {
   const { imie, email, link_do_modelu, material, uwagi } = await request.json()
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'tymonbx@gmail.com',
-      pass: process.env.GMAIL_APP_PASSWORD,
-    },
-  })
-
   try {
-    await transporter.sendMail({
-      from:     '"NeonForge Store" <tymonbx@gmail.com>',
-      to:       'tymonbx@gmail.com',
-      replyTo:  email,
-      subject:  `🖨️ Nowe zamówienie od ${imie}`,
+    await resend.emails.send({
+      from:    'NeonForge Store <onboarding@resend.dev>',
+      to:      'tymonbx@gmail.com',
+      replyTo: email,
+      subject: `🖨️ Nowe zamówienie od ${imie}`,
       html: `
-        <h2 style="color:#00F5FF">Nowe zamówienie wydruku 3D</h2>
+        <h2 style="color:#00b4d8">Nowe zamówienie wydruku 3D</h2>
         <table style="border-collapse:collapse;width:100%;font-family:sans-serif">
           <tr style="background:#f5f5f5">
             <td style="padding:10px;border:1px solid #ddd;font-weight:bold">Imię</td>
@@ -44,9 +36,7 @@ export async function POST(request: Request) {
             <td style="padding:10px;border:1px solid #ddd">${uwagi || '—'}</td>
           </tr>
         </table>
-        <p style="margin-top:16px;color:#666">
-          Kliknij <b>Odpowiedz</b> — mail trafi bezpośrednio do klienta.
-        </p>
+        <p style="margin-top:16px;color:#666">Kliknij <b>Odpowiedz</b> — mail trafi do klienta.</p>
       `,
     })
 
