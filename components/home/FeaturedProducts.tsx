@@ -24,7 +24,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
               Polecane produkty
             </h2>
           </div>
-          <Link href="/products?tag=featured">
+          <Link href="/products">
             <Button variant="ghost" size="sm">
               Zobacz wszystkie →
             </Button>

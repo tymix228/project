@@ -68,6 +68,19 @@ export default function ContactPage() {
 
         </div>
 
+        {/* CTA */}
+        <div className="mt-6 p-6 bg-dark-surface border border-neon-cyan/20 rounded-2xl text-center">
+          <p className="text-gray-400 text-sm mb-4">
+            Chcesz wydrukować własny projekt? Użyj formularza zamówień.
+          </p>
+          <a
+            href="/order"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-gaming text-white font-medium text-sm hover:opacity-90 active:scale-95 transition-all"
+          >
+            Zamów wydruk 3D →
+          </a>
+        </div>
+
         {/* Info */}
         <p className="text-center text-gray-600 text-sm mt-8">
           {SITE_NAME} — druk 3D dla graczy i twórców

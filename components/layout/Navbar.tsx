@@ -39,20 +39,28 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
-                  pathname === link.href
-                    ? 'text-neon-cyan bg-neon-cyan/10'
-                    : 'text-gray-400 hover:text-gray-100 hover:bg-dark-surface'
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map(link => {
+              const isActive = link.href === '/'
+                ? pathname === '/'
+                : pathname?.startsWith(link.href)
+              const isCta = link.href === '/order'
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                    isCta
+                      ? 'text-neon-cyan border border-neon-cyan/30 hover:bg-neon-cyan/10 hover:border-neon-cyan/60'
+                      : isActive
+                        ? 'text-neon-cyan bg-neon-cyan/10'
+                        : 'text-gray-400 hover:text-gray-100 hover:bg-dark-surface'
+                  )}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
           </nav>
 
           {/* Prawa strona */}
@@ -97,21 +105,26 @@ export default function Navbar() {
         {/* Mobile menu */}
         {mobileOpen && (
           <div className="md:hidden border-t border-dark-border py-3 space-y-1">
-            {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  'block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
-                  pathname === link.href
-                    ? 'text-neon-cyan bg-neon-cyan/10'
-                    : 'text-gray-400 hover:text-gray-100 hover:bg-dark-surface'
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map(link => {
+              const isActive = link.href === '/'
+                ? pathname === '/'
+                : pathname?.startsWith(link.href)
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={cn(
+                    'block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                    isActive
+                      ? 'text-neon-cyan bg-neon-cyan/10'
+                      : 'text-gray-400 hover:text-gray-100 hover:bg-dark-surface'
+                  )}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
           </div>
         )}
       </div>

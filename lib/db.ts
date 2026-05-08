@@ -15,6 +15,8 @@ export async function initDB() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `
+  await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS kolor TEXT DEFAULT ''`
+  await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS ilosc INTEGER DEFAULT 1`
   await sql`
     CREATE TABLE IF NOT EXISTS products (
       id                TEXT        PRIMARY KEY,

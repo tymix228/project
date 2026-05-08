@@ -4,18 +4,19 @@ import { getProducts } from '@/lib/products'
 import ProductGrid from '@/components/products/ProductGrid'
 import ProductFilters from '@/components/products/ProductFilters'
 import Spinner from '@/components/ui/Spinner'
-import type { ProductCategory } from '@/types'
+import type { ProductCategory, ProductTag } from '@/types'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Sklep',
+  title: 'Sklep — NeonForge',
   description: 'Przeglądaj wszystkie produkty z druku 3D dla graczy i twórców.',
 }
 
 interface PageProps {
   searchParams: {
     category?: string
+    tag?: string
     search?: string
     sort?: string
   }
@@ -29,7 +30,8 @@ export default async function ProductsPage({ searchParams }: PageProps) {
 
   const { products, total } = await getProducts({
     category: searchParams.category as ProductCategory | undefined,
-    search: searchParams.search,
+    tag:      searchParams.tag as ProductTag | undefined,
+    search:   searchParams.search,
     sortBy,
     order,
   })

@@ -128,11 +128,20 @@ export default function CartPage() {
                 </p>
               </div>
 
-              <Link href="/products" className="block">
+              <Link href="/products" className="block mb-3">
                 <Button fullWidth variant="secondary" size="md">
                   Kontynuuj zakupy
                 </Button>
               </Link>
+
+              <div className="border-t border-dark-border pt-4">
+                <p className="text-xs text-gray-600 mb-2 text-center">Lub zamów wydruk własnego modelu</p>
+                <Link href="/order" className="block">
+                  <Button fullWidth variant="ghost" size="sm">
+                    Zamów własny wydruk →
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

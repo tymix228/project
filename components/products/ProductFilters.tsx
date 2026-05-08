@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
-import { CATEGORIES, SORT_OPTIONS } from '@/lib/constants'
+import { CATEGORIES, TAGS, SORT_OPTIONS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 
 export default function ProductFilters() {
@@ -10,8 +10,9 @@ export default function ProductFilters() {
   const searchParams = useSearchParams()
 
   const currentCategory = searchParams.get('category') || ''
-  const currentSort     = searchParams.get('sort') || ''
-  const currentSearch   = searchParams.get('search') || ''
+  const currentTag      = searchParams.get('tag')      || ''
+  const currentSort     = searchParams.get('sort')     || ''
+  const currentSearch   = searchParams.get('search')   || ''
 
   const [searchValue, setSearchValue] = useState(currentSearch)
 
@@ -79,6 +80,40 @@ export default function ProductFilters() {
             >
               <span>{cat.icon}</span>
               {cat.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Tagi */}
+      <div>
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">
+          Tagi
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setParam('tag', '')}
+            className={cn(
+              'px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200',
+              !currentTag
+                ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40'
+                : 'bg-dark-surface text-gray-400 border border-dark-border hover:border-neon-cyan/30'
+            )}
+          >
+            Wszystkie
+          </button>
+          {TAGS.map(tag => (
+            <button
+              key={tag.value}
+              onClick={() => setParam('tag', tag.value)}
+              className={cn(
+                'px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200',
+                currentTag === tag.value
+                  ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40'
+                  : 'bg-dark-surface text-gray-400 border border-dark-border hover:border-neon-cyan/30'
+              )}
+            >
+              {tag.label}
             </button>
           ))}
         </div>

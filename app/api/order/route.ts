@@ -17,8 +17,16 @@ export async function POST(request: Request) {
 
     await initDB()
     await sql`
-      INSERT INTO orders (imie, email, model_url, material, uwagi)
-      VALUES (${body.imie}, ${body.email}, ${body.link_do_modelu}, ${body.material}, ${body.uwagi || ''})
+      INSERT INTO orders (imie, email, model_url, material, uwagi, kolor, ilosc)
+      VALUES (
+        ${body.imie},
+        ${body.email},
+        ${body.link_do_modelu},
+        ${body.material},
+        ${body.uwagi || ''},
+        ${body.kolor || ''},
+        ${Number(body.ilosc) || 1}
+      )
     `
 
     return NextResponse.json({ ok: true })
