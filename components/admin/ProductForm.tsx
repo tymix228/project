@@ -97,17 +97,22 @@ export default function ProductForm({ product }: ProductFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
       {/* Upload zdjęć */}
-      <div className="bg-dark-surface border border-dark-border rounded-xl p-6">
-        <h2 className="font-semibold text-gray-200 mb-5">Zdjęcia</h2>
-        <ImageUpload images={images} onChange={setImages} />
+      <div className="bg-dark-surface border border-dark-border rounded-2xl overflow-hidden">
+        <div className="h-px bg-gradient-gaming opacity-25" />
+        <div className="p-6">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono mb-5">Zdjęcia produktu</p>
+          <ImageUpload images={images} onChange={setImages} />
+        </div>
       </div>
 
       {/* Podstawowe informacje */}
-      <div className="bg-dark-surface border border-dark-border rounded-xl p-6 space-y-5">
-        <h2 className="font-semibold text-gray-200">Podstawowe informacje</h2>
+      <div className="bg-dark-surface border border-dark-border rounded-2xl overflow-hidden">
+        <div className="h-px bg-gradient-gaming opacity-25" />
+        <div className="p-6 space-y-5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono">Podstawowe informacje</p>
 
         <Input
           label="Nazwa produktu *"
@@ -124,7 +129,7 @@ export default function ProductForm({ product }: ProductFormProps) {
         />
 
         <div>
-          <label className="text-sm font-medium text-gray-300 block mb-1.5">Pełny opis *</label>
+          <label className="text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono block mb-2">Pełny opis *</label>
           <textarea
             rows={5}
             placeholder="Szczegółowy opis produktu..."
@@ -137,7 +142,7 @@ export default function ProductForm({ product }: ProductFormProps) {
         </div>
 
         <div>
-          <label className="text-sm font-medium text-gray-300 block mb-2">Kategoria *</label>
+          <label className="text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono block mb-2">Kategoria *</label>
           <select
             className="w-full px-4 py-2.5 rounded-lg text-sm bg-dark-bg border border-dark-border text-gray-200 focus:outline-none focus:border-neon-cyan"
             {...register('category')}
@@ -155,7 +160,7 @@ export default function ProductForm({ product }: ProductFormProps) {
         </div>
 
         <div>
-          <label className="text-sm font-medium text-gray-300 block mb-2">Tagi</label>
+          <label className="text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono block mb-2">Tagi</label>
           <div className="flex flex-wrap gap-2">
             {TAGS.map(tag => (
               <button
@@ -173,11 +178,14 @@ export default function ProductForm({ product }: ProductFormProps) {
             ))}
           </div>
         </div>
+        </div>
       </div>
 
       {/* Ceny i magazyn */}
-      <div className="bg-dark-surface border border-dark-border rounded-xl p-6 space-y-5">
-        <h2 className="font-semibold text-gray-200">Ceny i magazyn</h2>
+      <div className="bg-dark-surface border border-dark-border rounded-2xl overflow-hidden">
+        <div className="h-px bg-gradient-gaming opacity-25" />
+        <div className="p-6 space-y-5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono">Ceny i magazyn</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
@@ -224,27 +232,39 @@ export default function ProductForm({ product }: ProductFormProps) {
             {...register('printTime', { valueAsNumber: true })}
           />
         </div>
+        </div>
       </div>
 
       {/* Widoczność */}
-      <div className="bg-dark-surface border border-dark-border rounded-xl p-6 space-y-4">
-        <h2 className="font-semibold text-gray-200">Widoczność</h2>
+      <div className="bg-dark-surface border border-dark-border rounded-2xl overflow-hidden">
+        <div className="h-px bg-gradient-gaming opacity-25" />
+        <div className="p-6 space-y-4">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono">Widoczność</p>
 
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input type="checkbox" className="w-4 h-4 rounded accent-neon-cyan" {...register('isActive')} />
-          <div>
-            <p className="text-sm font-medium text-gray-200">Aktywny</p>
-            <p className="text-xs text-gray-500">Produkt widoczny w sklepie</p>
-          </div>
-        </label>
+          <label className="flex items-center gap-3 cursor-pointer group">
+            <div className="relative">
+              <input type="checkbox" className="sr-only peer" {...register('isActive')} />
+              <div className="w-10 h-5 rounded-full bg-dark-border peer-checked:bg-neon-cyan/30 transition-colors border border-dark-border peer-checked:border-neon-cyan/40" />
+              <div className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-gray-600 peer-checked:bg-neon-cyan peer-checked:translate-x-5 transition-all" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-200 group-hover:text-gray-100 transition-colors">Aktywny</p>
+              <p className="text-xs text-gray-600">Produkt widoczny w sklepie</p>
+            </div>
+          </label>
 
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input type="checkbox" className="w-4 h-4 rounded accent-neon-cyan" {...register('isFeatured')} />
-          <div>
-            <p className="text-sm font-medium text-gray-200">Polecany</p>
-            <p className="text-xs text-gray-500">Wyświetlany na stronie głównej</p>
-          </div>
-        </label>
+          <label className="flex items-center gap-3 cursor-pointer group">
+            <div className="relative">
+              <input type="checkbox" className="sr-only peer" {...register('isFeatured')} />
+              <div className="w-10 h-5 rounded-full bg-dark-border peer-checked:bg-neon-purple/30 transition-colors border border-dark-border peer-checked:border-neon-purple/40" />
+              <div className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-gray-600 peer-checked:bg-neon-purple peer-checked:translate-x-5 transition-all" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-200 group-hover:text-gray-100 transition-colors">Polecany</p>
+              <p className="text-xs text-gray-600">Wyświetlany na stronie głównej</p>
+            </div>
+          </label>
+        </div>
       </div>
 
       {/* Przyciski */}
@@ -252,8 +272,8 @@ export default function ProductForm({ product }: ProductFormProps) {
         <Button type="button" variant="ghost" onClick={() => router.back()}>
           Anuluj
         </Button>
-        <Button type="submit" isLoading={isLoading} size="lg">
-          {isEditing ? '💾 Zapisz zmiany' : '+ Dodaj produkt'}
+        <Button type="submit" isLoading={isLoading} size="lg" className="btn-shine">
+          {isEditing ? 'Zapisz zmiany' : '+ Dodaj produkt'}
         </Button>
       </div>
     </form>
