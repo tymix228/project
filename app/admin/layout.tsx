@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { SITE_NAME } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 
@@ -13,10 +13,15 @@ const adminNav = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
+
+  async function handleLogout() {
+    await fetch('/api/admin/logout', { method: 'POST' })
+    router.push('/admin/login')
+  }
 
   return (
     <div className="min-h-screen bg-dark-bg flex">
-      {/* Sidebar */}
       <aside className="w-56 flex-shrink-0 bg-dark-surface border-r border-dark-border flex flex-col">
         <div className="p-5 border-b border-dark-border">
           <Link href="/admin" className="flex items-center gap-2">
@@ -47,9 +52,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
           ))}
         </nav>
+
+        <div className="p-3 border-t border-dark-border">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-neon-red hover:bg-neon-red/5 transition-all duration-200"
+          >
+            <span>🚪</span>
+            Wyloguj
+          </button>
+        </div>
       </aside>
 
-      {/* Główna treść */}
       <main className="flex-1 overflow-auto">
         {children}
       </main>

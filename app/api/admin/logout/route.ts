@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server'
-import { ADMIN_COOKIE_NAME } from '@/lib/constants'
 
 export async function POST() {
-  const response = NextResponse.json({ message: 'Wylogowano' })
-  response.cookies.delete(ADMIN_COOKIE_NAME)
+  const response = NextResponse.json({ ok: true })
+  response.cookies.set('admin_session', '', { maxAge: 0, path: '/' })
   return response
 }
