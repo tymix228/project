@@ -66,25 +66,6 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="border-t border-dark-border" />
-
-          {/* CTA */}
-          <div className="text-center pt-2">
-            <a
-              href="mailto:tymonbx@gmail.com?subject=Zapytanie%20ze%20sklepu%20NeonForge"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl
-                         bg-gradient-gaming text-white font-medium text-sm
-                         hover:opacity-90 active:scale-95 transition-all duration-200
-                         shadow-lg shadow-neon-cyan/20"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              Napisz do mnie
-            </a>
-          </div>
         </div>
 
         {/* Info */}
