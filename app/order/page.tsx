@@ -1,7 +1,3 @@
-'use client'
-
-import { useState } from 'react'
-import type { Metadata } from 'next'
 import { SITE_NAME } from '@/lib/constants'
 
 const FILE_SITES = [
@@ -12,49 +8,10 @@ const FILE_SITES = [
 ]
 
 export default function OrderPage() {
-  const [sent, setSent] = useState(false)
-  const [loading, setLoading] = useState(false)
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setLoading(true)
-    const form = e.currentTarget
-    const data = new FormData(form)
-
-    await fetch('https://formsubmit.co/tymonbx@gmail.com', {
-      method: 'POST',
-      body: data,
-    })
-
-    setSent(true)
-    setLoading(false)
-  }
-
-  if (sent) {
-    return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center px-4">
-        <div className="text-center max-w-md">
-          <div className="text-6xl mb-4">✅</div>
-          <h1 className="font-display text-2xl font-bold gradient-text mb-3">Zamówienie wysłane!</h1>
-          <p className="text-gray-400">
-            Dostałem Twoje zgłoszenie. Odezwę się na podany adres e-mail z wyceną i terminem realizacji.
-          </p>
-          <a
-            href="/"
-            className="inline-block mt-6 px-6 py-3 rounded-xl bg-gradient-gaming text-white font-medium text-sm hover:opacity-90 transition-all"
-          >
-            Wróć na stronę główną
-          </a>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-dark-bg py-16 px-4">
       <div className="max-w-2xl mx-auto">
 
-        {/* Nagłówek */}
         <div className="text-center mb-10">
           <h1 className="font-display text-4xl font-bold gradient-text mb-4">Zamów wydruk</h1>
           <p className="text-gray-400 text-lg">
@@ -81,15 +38,16 @@ export default function OrderPage() {
           ))}
         </div>
 
-        {/* Formularz */}
+        {/* Formularz — zwykły HTML POST do formsubmit */}
         <form
-          onSubmit={handleSubmit}
+          action="https://formsubmit.co/tymonbx@gmail.com"
+          method="POST"
           className="bg-dark-surface border border-dark-border rounded-2xl p-8 space-y-5"
         >
-          {/* Ukryte pola formsubmit */}
           <input type="hidden" name="_subject" value={`Nowe zamówienie wydruku — ${SITE_NAME}`} />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_next" value="https://project-zeta-one-51.vercel.app/order/dziekujemy" />
 
           <div>
             <label className="block text-sm text-gray-400 mb-2">Twoje imię *</label>
@@ -156,12 +114,10 @@ export default function OrderPage() {
 
           <button
             type="submit"
-            disabled={loading}
             className="w-full py-3 rounded-xl bg-gradient-gaming text-white font-medium
-                       hover:opacity-90 active:scale-95 transition-all duration-200
-                       disabled:opacity-50 disabled:cursor-not-allowed"
+                       hover:opacity-90 active:scale-95 transition-all duration-200"
           >
-            {loading ? 'Wysyłanie...' : 'Wyślij zamówienie →'}
+            Wyślij zamówienie →
           </button>
 
           <p className="text-xs text-gray-600 text-center">
