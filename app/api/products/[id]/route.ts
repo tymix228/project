@@ -2,15 +2,6 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getProductById, updateProduct, deleteProduct } from '@/lib/products'
 import { revalidatePath } from 'next/cache'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
-
-async function isAuthorized(request: NextRequest): Promise<boolean> {
-  const headerKey = request.headers.get('x-admin-key')
-  if (headerKey && headerKey === process.env.ADMIN_KEY) return true
-  const session = await getServerSession(authOptions)
-  return session?.user?.isAdmin === true
-}
 
 // GET /api/products/[id] — jeden produkt
 export async function GET(
@@ -34,10 +25,6 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  if (!await isAuthorized(request)) {
-    return NextResponse.json({ error: 'Brak uprawnień' }, { status: 401 })
-  }
-
   try {
     const body = await request.json()
     const updated = updateProduct(params.id, body)
@@ -63,10 +50,6 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  if (!await isAuthorized(request)) {
-    return NextResponse.json({ error: 'Brak uprawnień' }, { status: 401 })
-  }
-
   try {
     const success = deleteProduct(params.id)
     if (!success) {

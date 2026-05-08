@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { signOut, useSession } from 'next-auth/react'
 import { SITE_NAME } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 
@@ -14,7 +13,6 @@ const adminNav = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const { data: session } = useSession()
 
   return (
     <div className="min-h-screen bg-dark-bg flex">
@@ -31,20 +29,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
           </Link>
         </div>
-
-        {session?.user && (
-          <div className="px-4 py-3 border-b border-dark-border flex items-center gap-2">
-            {session.user.image && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={session.user.image}
-                alt=""
-                className="w-7 h-7 rounded-full"
-              />
-            )}
-            <span className="text-xs text-gray-400 truncate">{session.user.email}</span>
-          </div>
-        )}
 
         <nav className="flex-1 p-3 space-y-1">
           {adminNav.map(item => (
@@ -63,16 +47,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
           ))}
         </nav>
-
-        <div className="p-3 border-t border-dark-border">
-          <button
-            onClick={() => signOut({ callbackUrl: '/admin/login' })}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-neon-red hover:bg-neon-red/5 transition-all duration-200"
-          >
-            <span>🚪</span>
-            Wyloguj
-          </button>
-        </div>
       </aside>
 
       {/* Główna treść */}

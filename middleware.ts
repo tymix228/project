@@ -1,12 +1,6 @@
-import { withAuth } from 'next-auth/middleware'
-
-// Chronione trasy — tylko zalogowany admin ma dostęp
-export default withAuth({
-  pages: {
-    signIn: '/admin/login',
-  },
-})
+// Brak ochrony — admin dostępny bez logowania
+export { } from 'next/server'
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: [],
 }
