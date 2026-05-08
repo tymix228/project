@@ -109,14 +109,10 @@ export default function CartPage() {
             <div className="sticky top-24 bg-dark-card border border-dark-border rounded-xl p-6">
               <h2 className="font-display font-bold text-gray-200 mb-5">Podsumowanie</h2>
 
-              <div className="space-y-3 mb-5">
+              <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm text-gray-400">
-                  <span>Subtotal</span>
+                  <span>Produkty ({items.reduce((s, i) => s + i.quantity, 0)} szt.)</span>
                   <span className="font-mono">{totalPriceFormatted}</span>
-                </div>
-                <div className="flex justify-between text-sm text-gray-400">
-                  <span>Wysyłka</span>
-                  <span className="text-gray-500">Do ustalenia</span>
                 </div>
                 <div className="border-t border-dark-border pt-3 flex justify-between font-bold">
                   <span className="text-gray-200">Razem</span>
@@ -124,16 +120,17 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <Button fullWidth size="lg" disabled className="mb-3 opacity-60 cursor-not-allowed">
-                Przejdź do płatności
-              </Button>
-              <p className="text-center text-xs text-gray-600">
-                Płatności będą dostępne wkrótce
-              </p>
+              {/* Info o płatnościach */}
+              <div className="bg-neon-cyan/5 border border-neon-cyan/20 rounded-lg p-4 mb-4">
+                <p className="text-neon-cyan text-xs font-semibold mb-1">Sklep w budowie</p>
+                <p className="text-gray-400 text-xs leading-relaxed">
+                  Płatności online będą dostępne wkrótce. Aby złożyć zamówienie — skontaktuj się z nami bezpośrednio.
+                </p>
+              </div>
 
-              <Link href="/products" className="block mt-4">
-                <Button fullWidth variant="ghost" size="sm">
-                  ← Kontynuuj zakupy
+              <Link href="/products" className="block">
+                <Button fullWidth variant="secondary" size="md">
+                  Kontynuuj zakupy
                 </Button>
               </Link>
             </div>

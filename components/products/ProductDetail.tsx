@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import type { Product } from '@/types'
@@ -42,9 +43,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
         {/* Breadcrumb */}
         <nav className="text-xs text-gray-500 mb-8 flex items-center gap-2">
-          <a href="/" className="hover:text-neon-cyan transition-colors">Główna</a>
+          <Link href="/" className="hover:text-neon-cyan transition-colors">Główna</Link>
           <span>/</span>
-          <a href="/products" className="hover:text-neon-cyan transition-colors">Sklep</a>
+          <Link href="/products" className="hover:text-neon-cyan transition-colors">Sklep</Link>
           <span>/</span>
           <span className="text-gray-300">{product.name}</span>
         </nav>

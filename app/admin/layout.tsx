@@ -1,5 +1,9 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { SITE_NAME } from '@/lib/constants'
+import { cn } from '@/lib/utils'
 
 const adminNav = [
   { href: '/admin',          label: 'Dashboard',  icon: '📊' },
@@ -8,9 +12,16 @@ const adminNav = [
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
+  const router = useRouter()
+
+  async function handleLogout() {
+    await fetch('/api/admin/logout', { method: 'POST' })
+    router.push('/admin/login')
+  }
+
   return (
     <div className="min-h-screen bg-dark-bg flex">
-
       {/* Sidebar */}
       <aside className="w-56 flex-shrink-0 bg-dark-surface border-r border-dark-border flex flex-col">
         <div className="p-5 border-b border-dark-border">
@@ -30,7 +41,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:text-gray-100 hover:bg-dark-card transition-all duration-200"
+              className={cn(
+                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200',
+                pathname === item.href
+                  ? 'bg-dark-card text-neon-cyan'
+                  : 'text-gray-400 hover:text-gray-100 hover:bg-dark-card'
+              )}
             >
               <span>{item.icon}</span>
               {item.label}
@@ -39,13 +55,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         <div className="p-3 border-t border-dark-border">
-          <Link
-            href="/api/admin/logout"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-neon-red transition-colors"
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-neon-red hover:bg-neon-red/5 transition-all duration-200"
           >
             <span>🚪</span>
             Wyloguj
-          </Link>
+          </button>
         </div>
       </aside>
 

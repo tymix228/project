@@ -1,10 +1,9 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { CATEGORIES, SORT_OPTIONS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import Input from '@/components/ui/Input'
 
 export default function ProductFilters() {
   const router = useRouter()
@@ -13,6 +12,8 @@ export default function ProductFilters() {
   const currentCategory = searchParams.get('category') || ''
   const currentSort     = searchParams.get('sort') || ''
   const currentSearch   = searchParams.get('search') || ''
+
+  const [searchValue, setSearchValue] = useState(currentSearch)
 
   const setParam = useCallback(
     (key: string, value: string) => {
@@ -27,20 +28,24 @@ export default function ProductFilters() {
     [router, searchParams]
   )
 
+  // Debounce wyszukiwania — odczekaj 400ms po ostatnim klawiszu
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setParam('search', searchValue)
+    }, 400)
+    return () => clearTimeout(timer)
+  }, [searchValue]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className="space-y-6">
       {/* Wyszukiwarka */}
       <div>
-        <Input
+        <input
+          type="text"
           placeholder="Szukaj produktów..."
-          defaultValue={currentSearch}
-          onChange={e => {
-            const val = e.target.value
-            // Debounce — ustaw po 400ms
-            const t = setTimeout(() => setParam('search', val), 400)
-            return () => clearTimeout(t)
-          }}
-          className="w-full"
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
+          className="w-full px-4 py-2.5 rounded-lg text-sm bg-dark-bg border border-dark-border text-gray-100 placeholder-gray-500 focus:outline-none focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan/50 transition-all"
         />
       </div>
 

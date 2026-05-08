@@ -1,13 +1,6 @@
 import Link from 'next/link'
 import { SITE_NAME } from '@/lib/constants'
 
-const socialLinks = [
-  { label: 'Twitter/X', href: '#', icon: 'X' },
-  { label: 'Instagram', href: '#', icon: 'IG' },
-  { label: 'Discord',   href: '#', icon: 'DC' },
-  { label: 'GitHub',    href: '#', icon: 'GH' },
-]
-
 const footerLinks = [
   {
     title: 'Sklep',
@@ -16,15 +9,14 @@ const footerLinks = [
       { label: 'Figurki',            href: '/products?category=figurines' },
       { label: 'Akcesoria',          href: '/products?category=accessories' },
       { label: 'Cosplay',            href: '/products?category=cosplay' },
+      { label: 'Teren RPG',          href: '/products?category=terrain' },
+      { label: 'Elektronika',        href: '/products?category=electronics' },
     ],
   },
   {
-    title: 'Informacje',
+    title: 'Koszyk',
     links: [
-      { label: 'O nas',              href: '#' },
-      { label: 'Kontakt',            href: '#' },
-      { label: 'Polityka prywatności', href: '#' },
-      { label: 'Regulamin',          href: '#' },
+      { label: 'Mój koszyk', href: '/cart' },
     ],
   },
 ]
@@ -33,10 +25,10 @@ export default function Footer() {
   return (
     <footer className="border-t border-dark-border bg-dark-surface mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
           {/* Brand */}
-          <div className="md:col-span-2">
+          <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
               <span className="w-9 h-9 rounded-lg bg-gradient-gaming flex items-center justify-center text-white font-bold font-display">
                 NF
@@ -47,18 +39,6 @@ export default function Footer() {
               Precyzyjny druk 3D dla graczy, twórców i miłośników futurystycznego designu.
               Każdy produkt tworzony z pasją.
             </p>
-            <div className="flex items-center gap-2 mt-4">
-              {socialLinks.map(social => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  aria-label={social.label}
-                  className="w-8 h-8 rounded-lg border border-dark-border text-gray-500 hover:text-neon-cyan hover:border-neon-cyan/50 transition-all duration-200 flex items-center justify-center text-xs font-bold"
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Linki */}
