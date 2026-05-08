@@ -24,6 +24,18 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50">
+      {/* Promo announcement bar */}
+      <div className="bg-dark-surface border-b border-dark-border/60 py-1.5 px-4">
+        <p className="text-center text-[10px] font-mono text-gray-500">
+          <span className="text-neon-cyan/80">⚡</span>
+          {' '}Realizacja zamówień od <span className="text-neon-cyan font-bold">24h</span>
+          {' · '}
+          Wycena <span className="text-neon-green font-bold">bezpłatna</span>
+          {' · '}
+          Precyzja <span className="text-neon-purple font-bold">0.1mm</span>
+        </p>
+      </div>
+
       {/* Gradient top line */}
       <div className="h-px bg-gradient-to-r from-neon-cyan/0 via-neon-cyan/50 to-neon-purple/50" style={{ animation: 'border-flow 5s ease infinite', backgroundSize: '200% 200%' }} />
 

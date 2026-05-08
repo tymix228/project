@@ -74,9 +74,45 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-neon-cyan/20 pointer-events-none" />
 
               {discount > 0 && (
-                <span className="absolute top-4 right-4 bg-neon-red text-white text-sm font-bold px-3 py-1 rounded-full shadow-neon-red z-10">
+                <span className="absolute top-4 left-4 bg-neon-red text-white text-sm font-bold px-3 py-1 rounded-full shadow-neon-red z-10">
                   -{discount}%
                 </span>
+              )}
+
+              {/* Image navigation arrows */}
+              {product.images.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setSelectedImage(i => (i - 1 + product.images.length) % product.images.length)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-dark-bg/80 border border-dark-border text-gray-400 hover:text-neon-cyan hover:border-neon-cyan/40 flex items-center justify-center backdrop-blur-sm transition-all duration-200 opacity-0 group-hover:opacity-100 z-10"
+                    aria-label="Poprzednie zdjęcie"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setSelectedImage(i => (i + 1) % product.images.length)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-dark-bg/80 border border-dark-border text-gray-400 hover:text-neon-cyan hover:border-neon-cyan/40 flex items-center justify-center backdrop-blur-sm transition-all duration-200 opacity-0 group-hover:opacity-100 z-10"
+                    aria-label="Następne zdjęcie"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                  {/* Dot indicators */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                    {product.images.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setSelectedImage(i)}
+                        className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+                          selectedImage === i ? 'bg-neon-cyan w-4' : 'bg-gray-600 hover:bg-gray-400'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </>
               )}
             </div>
 
