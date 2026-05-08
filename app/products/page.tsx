@@ -5,6 +5,7 @@ import ProductGrid from '@/components/products/ProductGrid'
 import ProductFilters from '@/components/products/ProductFilters'
 import Spinner from '@/components/ui/Spinner'
 import type { ProductCategory, ProductTag } from '@/types'
+import { CATEGORIES } from '@/lib/constants'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,6 +37,11 @@ export default async function ProductsPage({ searchParams }: PageProps) {
     order,
   })
 
+  const hasFilters = !!(searchParams.category || searchParams.tag || searchParams.search)
+  const categoryLabel = searchParams.category
+    ? CATEGORIES.find(c => c.value === searchParams.category)?.label
+    : null
+
   return (
     <div className="min-h-screen bg-dark-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -46,29 +52,58 @@ export default async function ProductsPage({ searchParams }: PageProps) {
             <span className="w-1.5 h-1.5 rounded-full bg-neon-cyan animate-pulse" />
             SKLEP
           </div>
-          <h1 className="font-display text-4xl font-bold gradient-text mb-2">Wszystkie produkty</h1>
-          <p className="text-gray-500 text-sm font-mono">{total} produktów dostępnych</p>
+          <h1 className="font-display text-4xl font-bold gradient-text mb-2">
+            {categoryLabel ? categoryLabel : searchParams.search ? `Wyniki dla: "${searchParams.search}"` : 'Wszystkie produkty'}
+          </h1>
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="text-gray-500 text-sm font-mono">
+              <span className="text-neon-cyan font-bold">{total}</span> {total === 1 ? 'produkt' : 'produktów'}
+              {hasFilters && ' (po filtracji)'}
+            </p>
+            {hasFilters && (
+              <div className="flex items-center gap-1.5">
+                {searchParams.category && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/20 text-neon-cyan text-[10px] font-mono">
+                    {categoryLabel}
+                  </span>
+                )}
+                {searchParams.tag && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-neon-purple/10 border border-neon-purple/20 text-neon-purple text-[10px] font-mono">
+                    #{searchParams.tag}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filtry */}
           <aside className="lg:w-64 flex-shrink-0">
-            <div className="sticky top-24 bg-dark-surface border border-dark-border rounded-2xl p-5 overflow-hidden relative">
+            <div className="sticky top-24 bg-dark-surface border border-dark-border rounded-2xl overflow-hidden">
               {/* Top accent */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-gaming opacity-40" />
-              <div className="flex items-center gap-2 mb-5">
-                <div className="w-1.5 h-5 bg-gradient-gaming rounded-full" />
-                <h2 className="font-display font-semibold text-gray-200 text-sm tracking-wide">Filtruj</h2>
+              <div className="h-px bg-gradient-gaming opacity-40" />
+              <div className="p-5">
+                <div className="flex items-center gap-2 mb-5">
+                  <div className="w-1.5 h-5 bg-gradient-gaming rounded-full" />
+                  <h2 className="font-display font-semibold text-gray-200 text-sm tracking-wide">Filtruj</h2>
+                  {hasFilters && (
+                    <span className="ml-auto w-2 h-2 rounded-full bg-neon-cyan animate-pulse" />
+                  )}
+                </div>
+                <Suspense fallback={<Spinner size="sm" />}>
+                  <ProductFilters />
+                </Suspense>
               </div>
-              <Suspense fallback={<Spinner size="sm" />}>
-                <ProductFilters />
-              </Suspense>
             </div>
           </aside>
 
           {/* Siatka produktów */}
           <div className="flex-1">
-            <ProductGrid products={products} />
+            <ProductGrid
+              products={products}
+              emptyMessage={hasFilters ? 'Brak produktów pasujących do filtrów' : 'Brak produktów'}
+            />
           </div>
         </div>
       </div>
