@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 export async function POST(request: Request) {
   const { password } = await request.json()
 
-  if (!password || password !== process.env.ADMIN_PASSWORD) {
+  if (!password || password !== process.env.ADMIN_KEY) {
     return NextResponse.json({ error: 'Złe hasło' }, { status: 401 })
   }
 
