@@ -42,28 +42,35 @@ export default function StatsSection() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-dark-surface border border-dark-border hover:border-opacity-60 transition-all duration-300 overflow-hidden"
-              style={{ '--accent': stat.color } as React.CSSProperties}
+              className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-dark-surface border border-dark-border hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+              style={{ borderColor: `${stat.color}18` }}
             >
-              {/* Background glow */}
+              {/* Permanent subtle top accent */}
               <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ background: `radial-gradient(circle at 50% 0%, ${stat.color}10, transparent 70%)` }}
-              />
-
-              {/* Top border accent */}
-              <div
-                className="absolute top-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/2 h-0.5 transition-all duration-500 rounded-full"
+                className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-0.5 rounded-full opacity-30 group-hover:opacity-80 group-hover:w-2/3 transition-all duration-500"
                 style={{ background: stat.color }}
               />
 
-              <span className="text-3xl mb-3 relative z-10"
-                style={{ filter: `drop-shadow(0 0 10px ${stat.color}50)` }}>
+              {/* Background glow on hover */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{ background: `radial-gradient(circle at 50% 0%, ${stat.color}12, transparent 65%)` }}
+              />
+
+              {/* Icon */}
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4 relative z-10 transition-transform duration-300 group-hover:scale-110"
+                style={{
+                  background: `${stat.color}10`,
+                  border: `1px solid ${stat.color}25`,
+                  filter: `drop-shadow(0 0 12px ${stat.color}30)`,
+                }}
+              >
                 {stat.icon}
-              </span>
+              </div>
 
               <p
-                className="font-display font-black text-3xl lg:text-4xl relative z-10"
+                className="font-display font-black text-3xl lg:text-4xl relative z-10 transition-all duration-300"
                 style={{ color: stat.color, textShadow: `0 0 30px ${stat.color}40` }}
               >
                 {stat.value}

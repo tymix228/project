@@ -65,9 +65,19 @@ export default function HowItWorks() {
             <div key={step.num} className="relative group">
               {/* Łącznik między krokami */}
               {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-10 left-[calc(100%+10px)] w-[calc(100%-48px)] h-px"
-                  style={{ background: `linear-gradient(to right, ${step.color}40, ${steps[i+1].color}40)` }}
-                />
+                <div
+                  className="hidden lg:block absolute z-10"
+                  style={{ top: '28px', left: 'calc(100% + 2px)', width: 'calc(100% - 32px)' }}
+                >
+                  <div
+                    className="h-px w-full"
+                    style={{ background: `linear-gradient(to right, ${step.color}50, ${steps[i + 1].color}50)` }}
+                  />
+                  <div
+                    className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full"
+                    style={{ background: steps[i + 1].color, boxShadow: `0 0 6px ${steps[i + 1].color}` }}
+                  />
+                </div>
               )}
 
               <div
@@ -77,23 +87,37 @@ export default function HowItWorks() {
                   background: `radial-gradient(circle at 50% 0%, ${step.glow}, transparent 70%)`,
                 }}
               >
+                {/* Permanent subtle top line */}
+                <div
+                  className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-1/3 group-hover:w-2/3 rounded-full opacity-40 group-hover:opacity-80 transition-all duration-500"
+                  style={{ background: step.color }}
+                />
+
                 {/* Hover glow */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{ background: `radial-gradient(circle at 50% 30%, ${step.glow}, transparent 70%)` }}
                 />
 
-                {/* Numer */}
+                {/* Numer badge */}
                 <div className="flex items-start justify-between mb-5 relative z-10">
                   <span
-                    className="font-display font-black text-4xl leading-none opacity-20 group-hover:opacity-40 transition-opacity duration-300"
-                    style={{ color: step.color }}
+                    className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-xs font-mono font-bold border"
+                    style={{
+                      color: step.color,
+                      borderColor: step.border,
+                      background: `${step.glow}`,
+                    }}
                   >
                     {step.num}
                   </span>
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
-                    style={{ background: `${step.glow}`, border: `1px solid ${step.border}` }}
+                    className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+                    style={{
+                      background: `${step.glow}`,
+                      border: `1px solid ${step.border}`,
+                      filter: `drop-shadow(0 0 8px ${step.color}40)`,
+                    }}
                   >
                     {step.icon}
                   </div>

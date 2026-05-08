@@ -139,11 +139,16 @@ export default function CartPage() {
           {/* Podsumowanie */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-dark-surface border border-dark-border rounded-2xl overflow-hidden">
+              {/* Gradient top line */}
+              <div className="h-px bg-gradient-gaming opacity-60" />
               {/* Header */}
               <div className="px-6 py-4 border-b border-dark-border bg-gradient-to-r from-neon-cyan/5 to-neon-purple/5">
-                <h2 className="font-display font-bold text-gray-200 text-sm uppercase tracking-wider">
-                  Podsumowanie
-                </h2>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-4 bg-gradient-gaming rounded-full" />
+                  <h2 className="font-display font-bold text-gray-200 text-sm uppercase tracking-wider">
+                    Podsumowanie
+                  </h2>
+                </div>
               </div>
 
               <div className="p-6">

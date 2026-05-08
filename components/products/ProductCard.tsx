@@ -102,10 +102,16 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* ── Info ── */}
         <div className="p-4 relative">
+          {/* Top separator line */}
+          <div className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-dark-border to-transparent" />
+
           {/* Kategoria / materiał */}
-          <p className="text-[11px] text-gray-600 uppercase tracking-widest mb-1 font-mono">
-            {product.material || product.category}
-          </p>
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <span className="w-1 h-1 rounded-full bg-neon-cyan/40" />
+            <p className="text-[10px] text-gray-600 uppercase tracking-widest font-mono">
+              {product.material || product.category}
+            </p>
+          </div>
 
           {/* Nazwa */}
           <h3 className="font-semibold text-gray-200 text-sm leading-snug mb-2 line-clamp-2 group-hover:text-neon-cyan transition-colors duration-300">

@@ -26,7 +26,10 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
               <span className="w-1.5 h-1.5 rounded-full bg-neon-purple animate-pulse" />
               TOP PRODUKTY
             </div>
-            <h2 className="font-display text-3xl lg:text-4xl font-bold text-gray-100 mb-2">
+            <h2
+              className="glitch font-display text-3xl lg:text-4xl font-bold text-gray-100 mb-2"
+              data-text="Polecane produkty"
+            >
               Polecane produkty
             </h2>
             {/* Animowana linia pod nagłówkiem */}

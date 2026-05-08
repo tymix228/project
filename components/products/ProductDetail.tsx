@@ -45,10 +45,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
         {/* Breadcrumb */}
         <nav className="text-xs text-gray-600 mb-8 flex items-center gap-2 font-mono">
-          <Link href="/" className="hover:text-neon-cyan transition-colors">Główna</Link>
-          <span className="text-gray-700">/</span>
-          <Link href="/products" className="hover:text-neon-cyan transition-colors">Sklep</Link>
-          <span className="text-gray-700">/</span>
+          <Link href="/" className="hover:text-neon-cyan transition-colors duration-150">Główna</Link>
+          <span className="text-gray-800">◂</span>
+          <Link href="/products" className="hover:text-neon-cyan transition-colors duration-150">Sklep</Link>
+          <span className="text-gray-800">◂</span>
           <span className="text-gray-400 truncate max-w-[200px]">{product.name}</span>
         </nav>
 
@@ -132,27 +132,30 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <p className="text-gray-400 text-sm leading-relaxed mb-6">{product.shortDescription}</p>
 
             {/* Cena */}
-            <div className="flex items-end gap-4 mb-6 p-4 rounded-xl bg-dark-surface border border-dark-border">
-              <div>
-                <p className="text-xs text-gray-500 mb-1 font-mono uppercase tracking-wider">Cena</p>
-                <p
-                  className="font-mono text-4xl font-black text-neon-green"
-                  style={{ textShadow: '0 0 30px rgba(0,255,136,0.5)' }}
-                >
-                  {formatPrice(finalPrice)}
-                </p>
-              </div>
-              {hasDiscount && (
+            <div className="mb-6 rounded-xl overflow-hidden bg-dark-surface border border-dark-border">
+              <div className="h-px bg-gradient-gaming opacity-40" />
+              <div className="flex items-end gap-4 p-4">
                 <div>
-                  <p className="text-xs text-gray-600 mb-1">Cena regularna</p>
-                  <p className="font-mono text-lg text-gray-600 line-through">{formatPrice(product.compareAtPrice!)}</p>
+                  <p className="text-[10px] text-gray-600 mb-1 font-mono uppercase tracking-widest">Cena</p>
+                  <p
+                    className="font-mono text-4xl font-black text-neon-green"
+                    style={{ textShadow: '0 0 30px rgba(0,255,136,0.5)' }}
+                  >
+                    {formatPrice(finalPrice)}
+                  </p>
                 </div>
-              )}
-              {discount > 0 && (
-                <span className="ml-auto px-3 py-1.5 rounded-lg bg-neon-red/10 border border-neon-red/30 text-neon-red text-sm font-bold">
-                  Oszczędzasz {discount}%
-                </span>
-              )}
+                {hasDiscount && (
+                  <div>
+                    <p className="text-[10px] text-gray-600 mb-1 font-mono">Cena regularna</p>
+                    <p className="font-mono text-lg text-gray-600 line-through">{formatPrice(product.compareAtPrice!)}</p>
+                  </div>
+                )}
+                {discount > 0 && (
+                  <span className="ml-auto px-3 py-1.5 rounded-lg bg-neon-red/10 border border-neon-red/30 text-neon-red text-sm font-bold">
+                    -{discount}%
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Warianty */}
@@ -188,20 +191,25 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             {/* Detale — siatka */}
             <div className="grid grid-cols-3 gap-2 mb-6">
               {product.material && (
-                <div className="bg-dark-surface rounded-xl p-3 border border-dark-border text-center">
+                <div className="group bg-dark-surface rounded-xl p-3 border border-dark-border text-center hover:border-neon-cyan/30 transition-colors duration-200 overflow-hidden relative">
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-0 group-hover:w-3/4 bg-neon-cyan rounded-full transition-all duration-400 opacity-50" />
                   <p className="text-gray-600 text-[10px] uppercase tracking-wider font-mono mb-1">Materiał</p>
-                  <p className="text-gray-200 font-semibold text-sm">{product.material}</p>
+                  <p className="text-neon-cyan font-mono font-bold text-sm">{product.material}</p>
                 </div>
               )}
               {product.printTime && (
-                <div className="bg-dark-surface rounded-xl p-3 border border-dark-border text-center">
+                <div className="group bg-dark-surface rounded-xl p-3 border border-dark-border text-center hover:border-neon-purple/30 transition-colors duration-200 overflow-hidden relative">
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-0 group-hover:w-3/4 bg-neon-purple rounded-full transition-all duration-400 opacity-50" />
                   <p className="text-gray-600 text-[10px] uppercase tracking-wider font-mono mb-1">Czas druku</p>
-                  <p className="text-gray-200 font-semibold text-sm">{product.printTime}h</p>
+                  <p className="text-gray-200 font-mono font-bold text-sm">{product.printTime}h</p>
                 </div>
               )}
-              <div className="bg-dark-surface rounded-xl p-3 border border-dark-border text-center">
+              <div className="group bg-dark-surface rounded-xl p-3 border border-dark-border text-center overflow-hidden relative"
+                style={{ borderColor: outOfStock ? 'rgba(255,0,68,0.2)' : 'rgba(0,255,136,0.2)' }}>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-1/2 rounded-full"
+                  style={{ background: outOfStock ? '#FF0044' : '#00FF88', opacity: 0.4 }} />
                 <p className="text-gray-600 text-[10px] uppercase tracking-wider font-mono mb-1">Magazyn</p>
-                <p className={`font-semibold text-sm ${outOfStock ? 'text-neon-red' : 'text-neon-green'}`}>
+                <p className={`font-mono font-bold text-sm ${outOfStock ? 'text-neon-red' : 'text-neon-green'}`}>
                   {outOfStock ? 'Brak' : `${product.stock} szt.`}
                 </p>
               </div>

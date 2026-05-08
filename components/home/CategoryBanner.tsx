@@ -109,6 +109,11 @@ export default function CategoryBanner() {
                   {cat.label}
                 </span>
 
+                {/* Arrow — appears on hover */}
+                <span className={`relative z-10 text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0 ${style.text}`}>
+                  → przeglądaj
+                </span>
+
                 {/* Dolna linia dekoracyjna */}
                 <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-0 group-hover:w-3/4 ${style.dot} transition-all duration-500 rounded-full opacity-60`} />
               </Link>

@@ -433,3 +433,36 @@ select option {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* ============================================
+   NEON GOLD TEXT UTILITY
+   ============================================ */
+.text-neon-gold {
+  color: #FFD700;
+}
+
+/* ============================================
+   CARD TOP GRADIENT LINE UTILITY
+   ============================================ */
+.card-top-line {
+  position: relative;
+}
+.card-top-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(135deg, #00F5FF, #B400FF);
+  opacity: 0.5;
+  border-radius: 12px 12px 0 0;
+}
+
+/* ============================================
+   PRICE NUMBER GLOW
+   ============================================ */
+.price-glow {
+  color: #00FF88;
+  text-shadow: 0 0 20px rgba(0,255,136,0.5), 0 0 40px rgba(0,255,136,0.2);
+}

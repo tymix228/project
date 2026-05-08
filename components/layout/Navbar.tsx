@@ -25,7 +25,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50">
       {/* Gradient top line */}
-      <div className="h-px bg-gradient-to-r from-neon-cyan/0 via-neon-cyan/60 to-neon-purple/60" />
+      <div className="h-px bg-gradient-to-r from-neon-cyan/0 via-neon-cyan/50 to-neon-purple/50" style={{ animation: 'border-flow 5s ease infinite', backgroundSize: '200% 200%' }} />
 
       {/* Main bar */}
       <div className="border-b border-dark-border bg-dark-bg/85 backdrop-blur-xl">
@@ -72,14 +72,14 @@ export default function Navbar() {
                     className={cn(
                       'relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
                       isActive
-                        ? 'text-neon-cyan'
-                        : 'text-gray-400 hover:text-gray-100'
+                        ? 'text-neon-cyan bg-neon-cyan/5 border border-neon-cyan/15'
+                        : 'text-gray-400 hover:text-gray-100 border border-transparent hover:bg-dark-surface/60'
                     )}
                   >
                     {link.label}
                     {/* Active underline */}
                     {isActive && (
-                      <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4/5 h-0.5 bg-gradient-gaming rounded-full" />
+                      <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-3/5 h-0.5 bg-gradient-gaming rounded-full" />
                     )}
                   </Link>
                 )
