@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes'
 import { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import MobileNav from '@/components/layout/MobileNav'
 import Providers from '@/components/Providers'
 import ScrollToTop from '@/components/ui/ScrollToTop'
 import './globals.css'
@@ -64,8 +65,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pb-16 md:pb-0">{children}</main>
           <Footer />
+          <MobileNav />
           <ScrollToTop />
           <Toaster
             position="bottom-right"
