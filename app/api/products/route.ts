@@ -5,14 +5,14 @@ import { productFormSchema } from '@/lib/validations'
 import { priceToCents } from '@/lib/utils'
 import { revalidatePath } from 'next/cache'
 import type { ProductCategory, ProductTag } from '@/types'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 
-import { ADMIN_COOKIE_NAME } from '@/lib/constants'
-
-function isAuthorized(request: NextRequest): boolean {
+async function isAuthorized(request: NextRequest): Promise<boolean> {
   const headerKey = request.headers.get('x-admin-key')
-  if (headerKey === process.env.ADMIN_KEY) return true
-  const sessionCookie = request.cookies.get(ADMIN_COOKIE_NAME)
-  return sessionCookie?.value === 'authenticated'
+  if (headerKey && headerKey === process.env.ADMIN_KEY) return true
+  const session = await getServerSession(authOptions)
+  return session?.user?.isAdmin === true
 }
 
 // GET /api/products — lista produktów z filtrami
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/products — utwórz nowy produkt (wymaga auth)
 export async function POST(request: NextRequest) {
-  if (!isAuthorized(request)) {
+  if (!await isAuthorized(request)) {
     return NextResponse.json({ error: 'Brak uprawnień' }, { status: 401 })
   }
 

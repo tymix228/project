@@ -3,19 +3,19 @@ import type { NextRequest } from 'next/server'
 import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
 import { MAX_UPLOAD_SIZE, ALLOWED_IMAGE_TYPES } from '@/lib/constants'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 
-import { ADMIN_COOKIE_NAME } from '@/lib/constants'
-
-function isAuthorized(request: NextRequest): boolean {
+async function isAuthorized(request: NextRequest): Promise<boolean> {
   const headerKey = request.headers.get('x-admin-key')
-  if (headerKey === process.env.ADMIN_KEY) return true
-  const sessionCookie = request.cookies.get(ADMIN_COOKIE_NAME)
-  return sessionCookie?.value === 'authenticated'
+  if (headerKey && headerKey === process.env.ADMIN_KEY) return true
+  const session = await getServerSession(authOptions)
+  return session?.user?.isAdmin === true
 }
 
 // POST /api/upload — upload zdjęcia produktu
 export async function POST(request: NextRequest) {
-  if (!isAuthorized(request)) {
+  if (!await isAuthorized(request)) {
     return NextResponse.json({ error: 'Brak uprawnień' }, { status: 401 })
   }
 

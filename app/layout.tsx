@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes'
 import { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import Providers from '@/components/Providers'
 import './globals.css'
 
 const inter = Inter({
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${inter.variable} ${orbitron.variable} ${jetbrainsMono.variable} font-body min-h-screen flex flex-col`}
       >
+        <Providers>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <Navbar />
           <main className="flex-1">{children}</main>
@@ -57,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}
           />
         </ThemeProvider>
+        </Providers>
       </body>
     </html>
   )
