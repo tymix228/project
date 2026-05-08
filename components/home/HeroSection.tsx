@@ -158,30 +158,24 @@ export default function HeroSection() {
 
               {/* Floating tags wokół sześcianu */}
               {[
-                { label: 'PLA+',    top: '-20px',   right: '-50px',  color: 'neon-cyan'   },
-                { label: 'PETG',    bottom: '-20px', left: '-50px',   color: 'neon-purple' },
-                { label: 'Resin',   top: '30%',     left: '-60px',  color: 'neon-green'  },
-                { label: '0.1mm',   bottom: '20%',  right: '-65px', color: 'neon-gold'   },
+                { label: 'PLA+',  top: '-20px',    right: '-50px', delay: '0s',   textColor: '#00F5FF', borderColor: 'rgba(0,245,255,0.3)',   bg: 'rgba(0,245,255,0.06)'   },
+                { label: 'PETG',  bottom: '-20px', left: '-50px',  delay: '1s',   textColor: '#B400FF', borderColor: 'rgba(180,0,255,0.3)',   bg: 'rgba(180,0,255,0.06)'  },
+                { label: 'Resin', top: '30%',      left: '-60px',  delay: '2s',   textColor: '#00FF88', borderColor: 'rgba(0,255,136,0.3)',   bg: 'rgba(0,255,136,0.06)'  },
+                { label: '0.1mm', bottom: '20%',   right: '-65px', delay: '0.5s', textColor: '#FFD700', borderColor: 'rgba(255,215,0,0.3)',   bg: 'rgba(255,215,0,0.06)'  },
               ].map(tag => (
                 <div
                   key={tag.label}
                   className="absolute px-3 py-1 rounded-full text-xs font-mono font-bold border float-animation-slow"
                   style={{
-                    top: tag.top, bottom: tag.bottom,
-                    left: tag.left, right: tag.right,
-                    animationDelay: `${Math.random() * 3}s`,
-                    color: `var(--tw-colors-${tag.color}, #00F5FF)`,
-                    borderColor: 'rgba(0,245,255,0.3)',
-                    background: 'rgba(0,245,255,0.06)',
+                    top: (tag as any).top,
+                    bottom: (tag as any).bottom,
+                    left: (tag as any).left,
+                    right: (tag as any).right,
+                    animationDelay: tag.delay,
+                    color: tag.textColor,
+                    borderColor: tag.borderColor,
+                    background: tag.bg,
                     backdropFilter: 'blur(4px)',
-                    color:
-                      tag.color === 'neon-cyan'   ? '#00F5FF' :
-                      tag.color === 'neon-purple' ? '#B400FF' :
-                      tag.color === 'neon-green'  ? '#00FF88' : '#FFD700',
-                    borderColor:
-                      tag.color === 'neon-cyan'   ? 'rgba(0,245,255,0.3)'   :
-                      tag.color === 'neon-purple' ? 'rgba(180,0,255,0.3)'   :
-                      tag.color === 'neon-green'  ? 'rgba(0,255,136,0.3)'   : 'rgba(255,215,0,0.3)',
                   }}
                 >
                   {tag.label}
