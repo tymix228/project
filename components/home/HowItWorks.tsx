@@ -3,7 +3,7 @@ const steps = [
     num:     '01',
     icon:    '🔍',
     title:   'Znajdź model',
-    desc:    'Przeglądaj Bambu Lab MakerWorld, Printables, Thingiverse lub Thingiverse i wybierz model, który chcesz wydrukować.',
+    desc:    'Przeglądaj Bambu Lab MakerWorld, Printables, Thingiverse lub MyMiniFactory i wybierz model, który chcesz wydrukować.',
     color:   '#00F5FF',
     border:  'rgba(0,245,255,0.25)',
     glow:    'rgba(0,245,255,0.12)',
