@@ -2,8 +2,10 @@ import Link from 'next/link'
 import { getStats } from '@/lib/products'
 import Button from '@/components/ui/Button'
 
-export default function AdminDashboard() {
-  const stats = getStats()
+export const dynamic = 'force-dynamic'
+
+export default async function AdminDashboard() {
+  const stats = await getStats()
 
   const statCards = [
     { label: 'Wszystkie produkty', value: stats.total,      icon: '📦', color: 'neon-cyan' },

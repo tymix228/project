@@ -5,13 +5,15 @@ import FeaturedProducts from '@/components/home/FeaturedProducts'
 import CategoryBanner from '@/components/home/CategoryBanner'
 import { FEATURED_PRODUCTS_COUNT } from '@/lib/constants'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'NeonForge Store — Druk 3D dla Graczy',
   description: 'Precyzyjnie wydrukowane figurki, akcesoria i gadżety dla graczy, twórców i pasjonatów futurystycznego designu.',
 }
 
-export default function HomePage() {
-  const { products: featuredProducts } = getProducts({
+export default async function HomePage() {
+  const { products: featuredProducts } = await getProducts({
     featured: true,
     limit: FEATURED_PRODUCTS_COUNT,
     sortBy: 'rating',

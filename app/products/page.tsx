@@ -6,6 +6,8 @@ import ProductFilters from '@/components/products/ProductFilters'
 import Spinner from '@/components/ui/Spinner'
 import type { ProductCategory } from '@/types'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Sklep',
   description: 'Przeglądaj wszystkie produkty z druku 3D dla graczy i twórców.',
@@ -19,13 +21,13 @@ interface PageProps {
   }
 }
 
-export default function ProductsPage({ searchParams }: PageProps) {
+export default async function ProductsPage({ searchParams }: PageProps) {
   const [sortBy, order] = (searchParams.sort || 'createdAt-desc').split('-') as [
     'price' | 'name' | 'createdAt' | 'rating',
     'asc' | 'desc',
   ]
 
-  const { products, total } = getProducts({
+  const { products, total } = await getProducts({
     category: searchParams.category as ProductCategory | undefined,
     search: searchParams.search,
     sortBy,

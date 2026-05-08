@@ -6,8 +6,10 @@ import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import DeleteProductButton from './DeleteProductButton'
 
-export default function AdminProductsPage() {
-  const { products, total } = getProducts({ sortBy: 'createdAt', order: 'desc' })
+export const dynamic = 'force-dynamic'
+
+export default async function AdminProductsPage() {
+  const { products, total } = await getProducts({ sortBy: 'createdAt', order: 'desc' })
 
   return (
     <div className="p-8">

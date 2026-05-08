@@ -24,7 +24,8 @@
     "slugify": "^1.6.6",
     "react-hot-toast": "^2.4.1",
     "sharp": "^0.33.4",
-    "next-auth": "^4.24.7"
+    "next-auth": "^4.24.7",
+    "@neondatabase/serverless": "^0.9.0"
   },
   "devDependencies": {
     "typescript": "^5.5.3",

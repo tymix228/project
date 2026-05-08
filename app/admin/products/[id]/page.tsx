@@ -4,8 +4,10 @@ import { getProductById } from '@/lib/products'
 import ProductForm from '@/components/admin/ProductForm'
 import Button from '@/components/ui/Button'
 
-export default function EditProductPage({ params }: { params: { id: string } }) {
-  const product = getProductById(params.id)
+export const dynamic = 'force-dynamic'
+
+export default async function EditProductPage({ params }: { params: { id: string } }) {
+  const product = await getProductById(params.id)
   if (!product) notFound()
 
   return (

@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
 
-    const result = getProducts({
+    const result = await getProducts({
       category: searchParams.get('category') as ProductCategory | undefined,
       featured:  searchParams.get('featured') === 'true' ? true : undefined,
       tag:       searchParams.get('tag') as ProductTag | undefined,
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     }
 
     const data = parsed.data
-    const product = createProduct({
+    const product = await createProduct({
       name:             data.name,
       shortDescription: data.shortDescription,
       description:      data.description,

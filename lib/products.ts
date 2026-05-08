@@ -1,158 +1,170 @@
-import { readFileSync, writeFileSync } from 'fs'
-import path from 'path'
-import type { Product, ProductsDB, ProductsQueryParams } from '@/types'
+import type { Product, ProductsQueryParams } from '@/types'
 import { generateId, generateSlug } from './utils'
+import { sql, initDB } from './db'
 
-const DB_PATH = path.join(process.cwd(), 'data', 'products.json')
+type Row = Record<string, unknown>
 
-// Odczyt całej bazy danych
-function readDB(): ProductsDB {
-  const raw = readFileSync(DB_PATH, 'utf-8')
-  return JSON.parse(raw) as ProductsDB
+function toProduct(r: Row): Product {
+  return {
+    id:               r.id               as string,
+    slug:             r.slug             as string,
+    name:             r.name             as string,
+    shortDescription: r.short_description as string,
+    description:      r.description      as string,
+    price:            r.price            as number,
+    compareAtPrice:   r.compare_at_price  as number | undefined,
+    category:         r.category         as Product['category'],
+    tags:             (r.tags            as Product['tags'])    ?? [],
+    images:           (r.images          as string[])           ?? [],
+    variants:         (r.variants        as Product['variants']) ?? [],
+    material:         r.material         as string | undefined,
+    printTime:        r.print_time       as number | undefined,
+    stock:            r.stock            as number,
+    isActive:         r.is_active        as boolean,
+    isFeatured:       r.is_featured      as boolean,
+    createdAt:        (r.created_at as Date).toISOString(),
+    updatedAt:        (r.updated_at as Date).toISOString(),
+    rating:           r.rating           as number | undefined,
+    reviewCount:      r.review_count     as number,
+  }
 }
 
-// Zapis całej bazy danych
-function writeDB(db: ProductsDB): void {
-  db.lastUpdated = new Date().toISOString()
-  writeFileSync(DB_PATH, JSON.stringify(db, null, 2), 'utf-8')
-}
+export async function getProducts(
+  params?: ProductsQueryParams
+): Promise<{ products: Product[]; total: number }> {
+  await initDB()
+  const rows = await sql`SELECT * FROM products ORDER BY created_at DESC`
+  let products = rows.map(toProduct)
 
-// Pobierz wszystkie produkty z opcjonalnym filtrowaniem
-export function getProducts(params?: ProductsQueryParams): { products: Product[]; total: number } {
-  const db = readDB()
-  let products = [...db.products]
-
-  // Filtruj tylko aktywne (dla sklepu)
-  if (params?.category) {
-    products = products.filter(p => p.category === params.category)
-  }
-
-  if (params?.featured) {
-    products = products.filter(p => p.isFeatured)
-  }
-
-  if (params?.tag) {
-    products = products.filter(p => p.tags.includes(params.tag!))
-  }
-
+  if (params?.category) products = products.filter(p => p.category === params.category)
+  if (params?.featured)  products = products.filter(p => p.isFeatured)
+  if (params?.tag)       products = products.filter(p => p.tags.includes(params.tag!))
   if (params?.search) {
     const q = params.search.toLowerCase()
     products = products.filter(
-      p =>
-        p.name.toLowerCase().includes(q) ||
-        p.shortDescription.toLowerCase().includes(q)
+      p => p.name.toLowerCase().includes(q) || p.shortDescription.toLowerCase().includes(q)
     )
   }
 
-  // Sortowanie
   const sortBy = params?.sortBy || 'createdAt'
-  const order  = params?.order || 'desc'
+  const order  = params?.order  || 'desc'
   products.sort((a, b) => {
-    let aVal: number | string = a[sortBy as keyof Product] as number | string
-    let bVal: number | string = b[sortBy as keyof Product] as number | string
-    if (aVal === undefined) aVal = 0
-    if (bVal === undefined) bVal = 0
+    const aVal = (a[sortBy as keyof Product] as number | string) ?? 0
+    const bVal = (b[sortBy as keyof Product] as number | string) ?? 0
     if (order === 'asc') return aVal > bVal ? 1 : -1
     return aVal < bVal ? 1 : -1
   })
 
   const total = products.length
-
-  if (params?.limit) {
-    products = products.slice(0, params.limit)
-  }
-
+  if (params?.limit) products = products.slice(0, params.limit)
   return { products, total }
 }
 
-// Pobierz aktywne produkty (tylko dla sklepu publicznego)
-export function getActiveProducts(params?: ProductsQueryParams): { products: Product[]; total: number } {
-  return getProducts({ ...params })
+export async function getActiveProducts(params?: ProductsQueryParams) {
+  return getProducts(params)
 }
 
-// Pobierz produkt po slug
-export function getProductBySlug(slug: string): Product | null {
-  const db = readDB()
-  return db.products.find(p => p.slug === slug) ?? null
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  await initDB()
+  const rows = await sql`SELECT * FROM products WHERE slug = ${slug} LIMIT 1`
+  return rows[0] ? toProduct(rows[0] as Row) : null
 }
 
-// Pobierz produkt po ID
-export function getProductById(id: string): Product | null {
-  const db = readDB()
-  return db.products.find(p => p.id === id) ?? null
+export async function getProductById(id: string): Promise<Product | null> {
+  await initDB()
+  const rows = await sql`SELECT * FROM products WHERE id = ${id} LIMIT 1`
+  return rows[0] ? toProduct(rows[0] as Row) : null
 }
 
-// Dodaj nowy produkt
-export function createProduct(data: Omit<Product, 'id' | 'slug' | 'createdAt' | 'updatedAt'>): Product {
-  const db = readDB()
+export async function createProduct(
+  data: Omit<Product, 'id' | 'slug' | 'createdAt' | 'updatedAt'>
+): Promise<Product> {
+  await initDB()
 
-  const slug = generateSlug(data.name)
-  // Zapewnij unikalność slug
-  const existingSlugs = db.products.map(p => p.slug)
-  let finalSlug = slug
-  let counter = 1
-  while (existingSlugs.includes(finalSlug)) {
-    finalSlug = `${slug}-${counter++}`
-  }
+  const baseSlug = generateSlug(data.name)
+  const existing = await sql`SELECT slug FROM products WHERE slug LIKE ${baseSlug + '%'}`
+  const usedSlugs = existing.map(r => r.slug as string)
+  let slug = baseSlug
+  let i = 1
+  while (usedSlugs.includes(slug)) slug = `${baseSlug}-${i++}`
 
-  const newProduct: Product = {
-    ...data,
-    id: generateId(),
-    slug: finalSlug,
-    images: data.images || [],
-    variants: data.variants || [],
-    tags: data.tags || [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  }
-
-  db.products.unshift(newProduct) // dodaj na początku (najnowsze pierwsze)
-  writeDB(db)
-  return newProduct
+  const id = generateId()
+  const rows = await sql`
+    INSERT INTO products (
+      id, slug, name, short_description, description,
+      price, compare_at_price, category, tags, images, variants,
+      material, print_time, stock, is_active, is_featured,
+      rating, review_count
+    ) VALUES (
+      ${id}, ${slug}, ${data.name}, ${data.shortDescription}, ${data.description},
+      ${data.price}, ${data.compareAtPrice ?? null}, ${data.category},
+      ${JSON.stringify(data.tags)}, ${JSON.stringify(data.images)}, ${JSON.stringify(data.variants)},
+      ${data.material ?? null}, ${data.printTime ?? null}, ${data.stock},
+      ${data.isActive}, ${data.isFeatured},
+      ${data.rating ?? null}, ${data.reviewCount ?? 0}
+    )
+    RETURNING *
+  `
+  return toProduct(rows[0] as Row)
 }
 
-// Zaktualizuj produkt
-export function updateProduct(id: string, data: Partial<Product>): Product | null {
-  const db = readDB()
-  const index = db.products.findIndex(p => p.id === id)
-  if (index === -1) return null
+export async function updateProduct(
+  id: string,
+  data: Partial<Product>
+): Promise<Product | null> {
+  await initDB()
 
-  // Jeśli zmieniono nazwę, zaktualizuj slug
-  if (data.name && data.name !== db.products[index].name) {
-    data.slug = generateSlug(data.name)
-  }
+  const existing = await sql`SELECT * FROM products WHERE id = ${id} LIMIT 1`
+  if (!existing[0]) return null
 
-  db.products[index] = {
-    ...db.products[index],
-    ...data,
-    id,  // id nigdy się nie zmienia
-    updatedAt: new Date().toISOString(),
-  }
+  const current = toProduct(existing[0] as Row)
+  const merged  = { ...current, ...data, id }
 
-  writeDB(db)
-  return db.products[index]
+  const newSlug = data.name && data.name !== current.name
+    ? generateSlug(data.name)
+    : current.slug
+
+  const rows = await sql`
+    UPDATE products SET
+      slug              = ${newSlug},
+      name              = ${merged.name},
+      short_description = ${merged.shortDescription},
+      description       = ${merged.description},
+      price             = ${merged.price},
+      compare_at_price  = ${merged.compareAtPrice ?? null},
+      category          = ${merged.category},
+      tags              = ${JSON.stringify(merged.tags)},
+      images            = ${JSON.stringify(merged.images)},
+      variants          = ${JSON.stringify(merged.variants)},
+      material          = ${merged.material ?? null},
+      print_time        = ${merged.printTime ?? null},
+      stock             = ${merged.stock},
+      is_active         = ${merged.isActive},
+      is_featured       = ${merged.isFeatured},
+      rating            = ${merged.rating ?? null},
+      review_count      = ${merged.reviewCount ?? 0},
+      updated_at        = NOW()
+    WHERE id = ${id}
+    RETURNING *
+  `
+  return rows[0] ? toProduct(rows[0] as Row) : null
 }
 
-// Usuń produkt
-export function deleteProduct(id: string): boolean {
-  const db = readDB()
-  const index = db.products.findIndex(p => p.id === id)
-  if (index === -1) return false
-
-  db.products.splice(index, 1)
-  writeDB(db)
-  return true
+export async function deleteProduct(id: string): Promise<boolean> {
+  await initDB()
+  const result = await sql`DELETE FROM products WHERE id = ${id}`
+  return (result as unknown as { rowCount: number }).rowCount > 0
 }
 
-// Statystyki dla dashboardu admina
-export function getStats() {
-  const db = readDB()
-  const products = db.products
+export async function getStats() {
+  await initDB()
+  const rows = await sql`SELECT * FROM products`
+  const products = rows.map(toProduct)
 
   return {
-    total: products.length,
-    active: products.filter(p => p.isActive).length,
-    featured: products.filter(p => p.isFeatured).length,
+    total:      products.length,
+    active:     products.filter(p => p.isActive).length,
+    featured:   products.filter(p => p.isFeatured).length,
     outOfStock: products.filter(p => p.stock === 0).length,
     byCategory: Object.fromEntries(
       ['figurines', 'accessories', 'mods', 'terrain', 'cosplay', 'electronics'].map(cat => [
