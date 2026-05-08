@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { cookies } from 'next/headers'
 import { getProducts, createProduct } from '@/lib/products'
 import { productFormSchema } from '@/lib/validations'
 import { priceToCents } from '@/lib/utils'
@@ -28,8 +29,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/products — utwórz nowy produkt (wymaga auth)
 export async function POST(request: NextRequest) {
+  const cookieStore = cookies()
+  if (cookieStore.get('admin_session')?.value !== 'ok') {
+    return NextResponse.json({ error: 'Brak dostępu' }, { status: 401 })
+  }
+
   try {
     const body = await request.json()
 

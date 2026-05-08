@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-const ADMIN_PASSWORD = 'neonforge2024'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'neonforge2024'
 
 export async function POST(request: Request) {
   const { password } = await request.json()

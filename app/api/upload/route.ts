@@ -1,11 +1,16 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { cookies } from 'next/headers'
 import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
 import { MAX_UPLOAD_SIZE, ALLOWED_IMAGE_TYPES } from '@/lib/constants'
 
-// POST /api/upload — upload zdjęcia produktu
 export async function POST(request: NextRequest) {
+  const cookieStore = cookies()
+  if (cookieStore.get('admin_session')?.value !== 'ok') {
+    return NextResponse.json({ error: 'Brak dostępu' }, { status: 401 })
+  }
+
   try {
     const formData = await request.formData()
     const file = formData.get('file') as File | null

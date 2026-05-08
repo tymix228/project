@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { getProducts } from '@/lib/products'
+import { getAllProductsAdmin } from '@/lib/products'
 import { formatPrice, getProductImageSrc } from '@/lib/utils'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
@@ -9,7 +9,7 @@ import DeleteProductButton from './DeleteProductButton'
 export const dynamic = 'force-dynamic'
 
 export default async function AdminProductsPage() {
-  const { products, total } = await getProducts({ sortBy: 'createdAt', order: 'desc' })
+  const { products, total } = await getAllProductsAdmin()
 
   return (
     <div className="p-8">

@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { cookies } from 'next/headers'
 import { getProductById, updateProduct, deleteProduct } from '@/lib/products'
 import { revalidatePath } from 'next/cache'
 
-// GET /api/products/[id] — jeden produkt
+function isAdmin() {
+  const cookieStore = cookies()
+  return cookieStore.get('admin_session')?.value === 'ok'
+}
+
 export async function GET(
   _request: NextRequest,
   { params }: { params: { id: string } }
@@ -20,11 +25,12 @@ export async function GET(
   }
 }
 
-// PUT /api/products/[id] — zaktualizuj produkt
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  if (!isAdmin()) return NextResponse.json({ error: 'Brak dostępu' }, { status: 401 })
+
   try {
     const body = await request.json()
     const updated = await updateProduct(params.id, body)
@@ -45,11 +51,12 @@ export async function PUT(
   }
 }
 
-// DELETE /api/products/[id] — usuń produkt
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  if (!isAdmin()) return NextResponse.json({ error: 'Brak dostępu' }, { status: 401 })
+
   try {
     const success = await deleteProduct(params.id)
     if (!success) {

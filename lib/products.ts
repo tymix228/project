@@ -61,12 +61,14 @@ export async function getProducts(
 }
 
 export async function getActiveProducts(params?: ProductsQueryParams) {
-  const result = await getProducts(params)
-  return {
-    ...result,
-    products: result.products.filter(p => p.isActive),
-    total: result.products.filter(p => p.isActive).length,
-  }
+  return getProducts(params)
+}
+
+export async function getAllProductsAdmin(): Promise<{ products: Product[]; total: number }> {
+  await initDB()
+  const rows = await sql`SELECT * FROM products ORDER BY created_at DESC`
+  const products = rows.map(toProduct)
+  return { products, total: products.length }
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
