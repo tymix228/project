@@ -1,11 +1,20 @@
 import { sql, initDB } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export default async function AdminOrdersPage() {
   await initDB()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const orders: any[] = await sql`SELECT * FROM orders ORDER BY created_at DESC`
+
+  let orders: any[] = []
+  let dbError = ''
+
+  try {
+    const rows = await sql`SELECT * FROM orders ORDER BY created_at DESC`
+    orders = Array.isArray(rows) ? rows : (rows as any).rows ?? []
+  } catch (e) {
+    dbError = String(e)
+  }
 
   return (
     <div className="p-8">
@@ -13,6 +22,12 @@ export default async function AdminOrdersPage() {
         <h1 className="font-display text-2xl font-bold gradient-text">Zamówienia</h1>
         <p className="text-gray-500 text-sm mt-1">{orders.length} zamówień łącznie</p>
       </div>
+
+      {dbError && (
+        <div className="mb-4 p-4 bg-red-900/20 border border-red-500/30 rounded-xl text-red-400 text-sm">
+          Błąd bazy danych: {dbError}
+        </div>
+      )}
 
       {orders.length === 0 ? (
         <div className="text-center py-20">
