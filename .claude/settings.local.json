@@ -11,7 +11,20 @@
       "Bash(git branch *)",
       "Bash(git remote *)",
       "Bash(git config *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(cd \"/c/Users/tymon/OneDrive/Pulpit/cursor/PROJECT\" && grep \"resend\" package-lock.json | head -3; echo \"---\"; ls app/order/)",
+      "Read(//c/c/Users/tymon/OneDrive/Pulpit/cursor/PROJECT/**)",
+      "Bash(npx tsc *)",
+      "Bash(cat app/api/admin/login/route.ts)",
+      "Bash(cat app/api/admin/route.ts)",
+      "Bash(cat app/api/admin/magic/route.ts)",
+      "Bash(cat app/api/admin/logout/route.ts)",
+      "Bash(cat next.config.js)",
+      "Bash(cat next.config.ts)",
+      "Bash(cat next.config.mjs)",
+      "Bash(cat .eslintrc.json)",
+      "Bash(cat .eslintrc.js)",
+      "Bash(cat .eslintrc)"
     ]
   }
 }

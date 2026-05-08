@@ -33,7 +33,7 @@ export async function getProducts(
   params?: ProductsQueryParams
 ): Promise<{ products: Product[]; total: number }> {
   await initDB()
-  const rows = await sql`SELECT * FROM products ORDER BY created_at DESC`
+  const rows = await sql`SELECT * FROM products WHERE is_active = true ORDER BY created_at DESC`
   let products = rows.map(toProduct)
 
   if (params?.category) products = products.filter(p => p.category === params.category)
@@ -61,7 +61,12 @@ export async function getProducts(
 }
 
 export async function getActiveProducts(params?: ProductsQueryParams) {
-  return getProducts(params)
+  const result = await getProducts(params)
+  return {
+    ...result,
+    products: result.products.filter(p => p.isActive),
+    total: result.products.filter(p => p.isActive).length,
+  }
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {

@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { SITE_NAME } from '@/lib/constants'
 
 const footerLinks = [
@@ -24,6 +27,9 @@ const footerLinks = [
 ]
 
 export default function Footer() {
+  const pathname = usePathname()
+  if (pathname?.startsWith('/admin')) return null
+
   return (
     <footer className="border-t border-dark-border bg-dark-surface mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

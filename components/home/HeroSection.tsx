@@ -38,9 +38,9 @@ export default function HeroSection() {
                 Odkryj sklep →
               </Button>
             </Link>
-            <Link href="/products?tag=featured">
+            <Link href="/order">
               <Button size="lg" variant="secondary">
-                Polecane
+                Zamów wydruk
               </Button>
             </Link>
           </div>
