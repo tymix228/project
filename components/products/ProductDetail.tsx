@@ -235,14 +235,18 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
         {/* Pełny opis */}
         <div className="mt-20 max-w-3xl">
-          <div className="flex items-center gap-4 mb-8">
-            <h2 className="font-display text-xl font-bold text-gray-200">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-neon-cyan/20 bg-neon-cyan/5 text-neon-cyan text-xs font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-neon-cyan" />
               Opis produktu
-            </h2>
-            <div className="flex-1 h-px bg-gradient-to-r from-neon-cyan/30 to-transparent" />
+            </div>
+            <div className="flex-1 h-px bg-gradient-to-r from-neon-cyan/20 to-transparent" />
           </div>
-          <div className="text-gray-400 text-sm leading-relaxed whitespace-pre-line bg-dark-surface rounded-2xl p-6 border border-dark-border">
-            {product.description}
+          <div className="bg-dark-surface rounded-2xl border border-dark-border overflow-hidden">
+            <div className="h-px bg-gradient-gaming opacity-20" />
+            <div className="p-6 text-gray-400 text-sm leading-relaxed whitespace-pre-line">
+              {product.description}
+            </div>
           </div>
         </div>
       </div>
