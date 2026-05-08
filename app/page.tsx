@@ -3,6 +3,7 @@ import { getProducts } from '@/lib/products'
 import HeroSection from '@/components/home/HeroSection'
 import FeaturedProducts from '@/components/home/FeaturedProducts'
 import CategoryBanner from '@/components/home/CategoryBanner'
+import StatsSection from '@/components/home/StatsSection'
 import { FEATURED_PRODUCTS_COUNT } from '@/lib/constants'
 
 export const dynamic = 'force-dynamic'
@@ -23,6 +24,7 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
+      <StatsSection />
       {featuredProducts.length > 0 && <FeaturedProducts products={featuredProducts} />}
       <CategoryBanner />
     </>

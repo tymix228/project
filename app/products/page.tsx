@@ -41,16 +41,25 @@ export default async function ProductsPage({ searchParams }: PageProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Nagłówek */}
-        <div className="mb-8">
-          <h1 className="font-display text-3xl font-bold gradient-text mb-2">Sklep</h1>
-          <p className="text-gray-500 text-sm">{total} produktów</p>
+        <div className="mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-neon-cyan/20 bg-neon-cyan/5 text-neon-cyan/80 text-xs font-mono mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-neon-cyan animate-pulse" />
+            SKLEP
+          </div>
+          <h1 className="font-display text-4xl font-bold gradient-text mb-2">Wszystkie produkty</h1>
+          <p className="text-gray-500 text-sm font-mono">{total} produktów dostępnych</p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filtry */}
           <aside className="lg:w-64 flex-shrink-0">
-            <div className="sticky top-24 bg-dark-surface border border-dark-border rounded-xl p-5">
-              <h2 className="font-semibold text-gray-200 mb-5">Filtruj</h2>
+            <div className="sticky top-24 bg-dark-surface border border-dark-border rounded-2xl p-5 overflow-hidden relative">
+              {/* Top accent */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-gaming opacity-40" />
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-1.5 h-5 bg-gradient-gaming rounded-full" />
+                <h2 className="font-display font-semibold text-gray-200 text-sm tracking-wide">Filtruj</h2>
+              </div>
               <Suspense fallback={<Spinner size="sm" />}>
                 <ProductFilters />
               </Suspense>
