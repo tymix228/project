@@ -19,7 +19,7 @@ export default function ScrollToTop() {
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Wróć na górę"
       className={cn(
-        'fixed bottom-6 right-6 z-50',
+        'fixed bottom-20 right-4 md:bottom-6 md:right-6 z-50',
         'w-10 h-10 rounded-xl',
         'bg-dark-surface border border-neon-cyan/30 text-neon-cyan',
         'flex items-center justify-center',

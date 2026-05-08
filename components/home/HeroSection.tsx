@@ -84,7 +84,7 @@ export default function HeroSection() {
             </div>
 
             {/* Statystyki */}
-            <div className="flex flex-wrap gap-8">
+            <div className="flex flex-wrap gap-8 mb-8">
               {[
                 { value: '8+',  label: 'Produktów',    accent: '#00F5FF' },
                 { value: '6',   label: 'Kategorii',    accent: '#B400FF' },
@@ -104,6 +104,11 @@ export default function HeroSection() {
                 </div>
               ))}
             </div>
+
+            {/* Terminal hint */}
+            <p className="text-gray-700 text-xs font-mono cursor-blink">
+              $ neonforge --status online --precision=0.1mm
+            </p>
           </div>
 
           {/* Prawa strona — 3D dekoracja */}
