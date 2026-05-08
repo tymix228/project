@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 const adminNav = [
   { href: '/admin',          label: 'Dashboard',  icon: '📊' },
   { href: '/admin/products', label: 'Produkty',   icon: '📦' },
+  { href: '/admin/orders',   label: 'Zamówienia', icon: '📋' },
   { href: '/products',       label: '→ Sklep',    icon: '🏪' },
 ]
 

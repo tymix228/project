@@ -4,6 +4,18 @@ export const sql = neon(process.env.DATABASE_URL!)
 
 export async function initDB() {
   await sql`
+    CREATE TABLE IF NOT EXISTS orders (
+      id         SERIAL      PRIMARY KEY,
+      imie       TEXT        NOT NULL,
+      email      TEXT        NOT NULL,
+      model_url  TEXT        NOT NULL,
+      material   TEXT        NOT NULL,
+      uwagi      TEXT,
+      status     TEXT        NOT NULL DEFAULT 'nowe',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `
+  await sql`
     CREATE TABLE IF NOT EXISTS products (
       id                TEXT        PRIMARY KEY,
       slug              TEXT        UNIQUE NOT NULL,
