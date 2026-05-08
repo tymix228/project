@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server'
 
+const ADMIN_PASSWORD = 'neonforge2024'
+
 export async function POST(request: Request) {
   const { password } = await request.json()
 
-  if (!password || password !== process.env.ADMIN_KEY) {
+  if (password !== ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Złe hasło' }, { status: 401 })
   }
 
@@ -12,7 +14,7 @@ export async function POST(request: Request) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 60 * 60 * 8,
+    maxAge: 60 * 60 * 24 * 30,
     path: '/',
   })
   return response
