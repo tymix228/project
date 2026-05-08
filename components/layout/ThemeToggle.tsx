@@ -22,10 +22,10 @@ export default function ThemeToggle() {
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={isDark ? 'Włącz tryb jasny' : 'Włącz tryb ciemny'}
       className={cn(
-        'w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300',
-        'border border-dark-border hover:border-neon-cyan/50',
-        'text-gray-400 hover:text-neon-cyan',
-        'hover:bg-neon-cyan/10'
+        'w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300',
+        'border border-dark-border hover:border-neon-cyan/40',
+        'text-gray-500 hover:text-neon-cyan',
+        'hover:bg-neon-cyan/5 bg-dark-surface/50'
       )}
     >
       {isDark ? (
