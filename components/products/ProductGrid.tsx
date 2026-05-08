@@ -15,25 +15,50 @@ export default function ProductGrid({
 }: ProductGridProps) {
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-24">
-        <Spinner size="lg" />
+      <div className="flex flex-col items-center justify-center py-24 gap-4">
+        <div className="relative">
+          <Spinner size="lg" />
+          <div className="absolute inset-0 rounded-full bg-neon-cyan/10 blur-md animate-ping-slow" />
+        </div>
+        <p className="text-xs text-gray-600 font-mono animate-pulse">Ładowanie produktów...</p>
       </div>
     )
   }
 
   if (products.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 gap-4">
-        <span className="text-5xl">🔍</span>
-        <p className="text-gray-500 text-lg">{emptyMessage}</p>
+      <div className="flex flex-col items-center justify-center py-24 gap-5 text-center relative">
+        <div className="absolute inset-0 dot-bg opacity-30 pointer-events-none rounded-2xl" />
+
+        <div
+          className="w-24 h-24 rounded-3xl bg-dark-surface border border-dark-border flex items-center justify-center text-5xl float-animation"
+          style={{ boxShadow: '0 0 30px rgba(0,245,255,0.06)' }}
+        >
+          🔍
+        </div>
+        <div>
+          <p className="text-gray-300 text-lg font-semibold mb-1">{emptyMessage}</p>
+          <p className="text-gray-600 text-sm">Spróbuj zmienić filtry lub wyszukaj coś innego</p>
+        </div>
+        <div className="flex flex-wrap justify-center gap-2 text-xs font-mono text-gray-700">
+          {['Figurki', 'Akcesoria', 'Cosplay', 'Teren RPG'].map(cat => (
+            <span key={cat} className="px-3 py-1 rounded-full border border-dark-border">{cat}</span>
+          ))}
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
-      {products.map(product => (
-        <ProductCard key={product.id} product={product} />
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      {products.map((product, i) => (
+        <div
+          key={product.id}
+          className="animate-slide-up"
+          style={{ animationDelay: `${i * 60}ms`, animationFillMode: 'both' }}
+        >
+          <ProductCard product={product} />
+        </div>
       ))}
     </div>
   )

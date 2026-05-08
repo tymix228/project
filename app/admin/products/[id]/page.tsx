@@ -11,14 +11,15 @@ export default async function EditProductPage({ params }: { params: { id: string
   if (!product) notFound()
 
   return (
-    <div className="p-8 max-w-4xl">
+    <div className="p-6 lg:p-8 max-w-4xl">
       <div className="flex items-center gap-4 mb-8">
         <Link href="/admin/products">
           <Button variant="ghost" size="sm">← Wróć</Button>
         </Link>
         <div>
+          <p className="text-[10px] text-gray-600 font-mono uppercase tracking-widest mb-1">Admin / Produkty / Edycja</p>
           <h1 className="font-display text-2xl font-bold gradient-text">Edytuj produkt</h1>
-          <p className="text-gray-500 text-sm mt-1 text-xs font-mono">{product.name}</p>
+          <p className="text-gray-500 text-sm mt-1 font-mono">{product.name}</p>
         </div>
       </div>
       <ProductForm product={product} />

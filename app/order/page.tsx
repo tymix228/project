@@ -45,23 +45,35 @@ export default function OrderPage() {
 
   if (sent) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center px-4">
-        <div className="text-center max-w-md">
-          <div className="w-20 h-20 rounded-full bg-neon-green/10 border border-neon-green/30 flex items-center justify-center text-4xl mx-auto mb-6">
-            ✅
+      <div className="min-h-screen bg-dark-bg flex items-center justify-center px-4 relative overflow-hidden">
+        <div className="absolute inset-0 grid-bg opacity-25 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-neon-green/5 blur-[100px] pointer-events-none" />
+        <div className="relative text-center max-w-md">
+          <div className="relative inline-block mb-8">
+            <div
+              className="w-24 h-24 rounded-3xl bg-neon-green/10 border border-neon-green/30 flex items-center justify-center text-5xl mx-auto float-animation"
+              style={{ boxShadow: '0 0 40px rgba(0,255,136,0.2)' }}
+            >
+              ✓
+            </div>
+            <div className="absolute -inset-3 rounded-[30px] bg-neon-green/8 blur-xl animate-pulse" />
           </div>
-          <h1 className="font-display text-3xl font-bold gradient-text mb-3">
-            Zamówienie wysłane!
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-neon-green/30 bg-neon-green/8 text-neon-green text-[10px] font-mono mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-neon-green animate-pulse" />
+            ZAMÓWIENIE PRZYJĘTE
+          </div>
+          <h1 className="font-display text-3xl font-bold gradient-text-green mb-3">
+            Gotowe!
           </h1>
           <p className="text-gray-400 mb-2">
-            Odezwę się na Twój e-mail z wyceną i terminem realizacji w ciągu 24h.
+            Odezwę się na Twój e-mail z wyceną i terminem realizacji w ciągu <span className="text-neon-cyan font-mono font-bold">24h</span>.
           </p>
-          <p className="text-gray-600 text-sm mb-8">
-            Sprawdź też folder Spam, jeśli nie widzisz wiadomości.
+          <p className="text-gray-600 text-sm mb-8 font-mono">
+            Sprawdź folder Spam jeśli nie widzisz wiadomości.
           </p>
           <a
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-gaming text-white font-medium text-sm hover:opacity-90 active:scale-95 transition-all"
+            className="btn-shine inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-gaming text-white font-medium text-sm hover:opacity-90 active:scale-95 transition-all overflow-hidden"
           >
             ← Wróć do strony głównej
           </a>
@@ -71,18 +83,45 @@ export default function OrderPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg py-16 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-dark-bg py-16 px-4 relative">
+      <div className="absolute inset-0 grid-bg opacity-25 pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-neon-cyan/4 blur-[100px] pointer-events-none" />
+
+      <div className="relative max-w-2xl mx-auto">
         {/* Nagłówek */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan text-xs font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan text-xs font-mono mb-6">
             <span className="w-2 h-2 rounded-full bg-neon-cyan animate-pulse" />
-            Wycena w 24h
+            WYCENA W 24H
           </div>
           <h1 className="font-display text-4xl font-bold gradient-text mb-4">Zamów wydruk 3D</h1>
-          <p className="text-gray-400 text-lg">
+          <p className="text-gray-400 text-base">
             Znajdź model na jednym z serwisów, wklej link i wyślij — odezwę się z wyceną.
           </p>
+        </div>
+
+        {/* Steps indicator */}
+        <div className="flex items-center justify-center gap-0 mb-10">
+          {[
+            { n: '1', label: 'Znajdź model', color: '#00F5FF' },
+            { n: '2', label: 'Wyślij link',  color: '#B400FF' },
+            { n: '3', label: 'Wycena 24h',   color: '#00FF88' },
+          ].map((step, i) => (
+            <div key={step.n} className="flex items-center">
+              <div className="flex flex-col items-center">
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold font-display border-2 text-white"
+                  style={{ borderColor: step.color, background: `${step.color}20`, color: step.color, boxShadow: `0 0 12px ${step.color}40` }}
+                >
+                  {step.n}
+                </div>
+                <span className="text-[10px] text-gray-600 mt-1 font-mono whitespace-nowrap">{step.label}</span>
+              </div>
+              {i < 2 && (
+                <div className="w-16 h-px mx-1 mb-4" style={{ background: `linear-gradient(to right, ${step.color}50, ${[...['#00F5FF','#B400FF','#00FF88']][i+1]}50)` }} />
+              )}
+            </div>
+          ))}
         </div>
 
         {/* Linki do serwisów */}
@@ -104,10 +143,12 @@ export default function OrderPage() {
         </div>
 
         {/* Formularz */}
-        <form onSubmit={handleSubmit} className="bg-dark-surface border border-dark-border rounded-2xl p-8 space-y-5">
+        <div className="bg-dark-surface border border-dark-border rounded-2xl overflow-hidden">
+          <div className="h-px bg-gradient-gaming opacity-50" />
+          <form onSubmit={handleSubmit} className="p-8 space-y-5">
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm text-gray-400 mb-2">Twoje imię *</label>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono mb-2">Twoje imię *</label>
               <input
                 name="imie"
                 type="text"
@@ -117,7 +158,7 @@ export default function OrderPage() {
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-2">E-mail do odpowiedzi *</label>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono mb-2">E-mail do odpowiedzi *</label>
               <input
                 name="email"
                 type="email"
@@ -129,7 +170,7 @@ export default function OrderPage() {
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Link do modelu *</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono mb-2">Link do modelu *</label>
             <input
               name="link_do_modelu"
               type="url"
@@ -137,14 +178,14 @@ export default function OrderPage() {
               placeholder="https://makerworld.com/models/..."
               className={inputCls}
             />
-            <p className="text-xs text-gray-600 mt-1.5">
+            <p className="text-xs text-gray-600 mt-1.5 font-mono">
               Wklej link z Bambu Lab, Printables, Thingiverse, MyMiniFactory itp.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm text-gray-400 mb-2">Materiał</label>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono mb-2">Materiał</label>
               <select name="material" className={inputCls}>
                 <option>PLA (standard)</option>
                 <option>PLA+ (mocniejszy)</option>
@@ -154,7 +195,7 @@ export default function OrderPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-2">Ilość sztuk</label>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono mb-2">Ilość sztuk</label>
               <input
                 name="ilosc"
                 type="number"
@@ -167,7 +208,7 @@ export default function OrderPage() {
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Kolor</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono mb-2">Kolor</label>
             <select name="kolor" className={inputCls}>
               {COLORS.map(c => (
                 <option key={c}>{c}</option>
@@ -176,7 +217,7 @@ export default function OrderPage() {
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Dodatkowe uwagi</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono mb-2">Dodatkowe uwagi</label>
             <textarea
               name="uwagi"
               rows={3}
@@ -186,7 +227,8 @@ export default function OrderPage() {
           </div>
 
           {error && (
-            <div className="p-3 rounded-lg bg-neon-red/10 border border-neon-red/30 text-neon-red text-sm">
+            <div className="flex items-start gap-2 p-3 rounded-xl bg-neon-red/8 border border-neon-red/25 text-neon-red text-sm">
+              <span className="font-mono text-base leading-none mt-0.5">✕</span>
               {error}
             </div>
           )}
@@ -194,7 +236,7 @@ export default function OrderPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 rounded-xl bg-gradient-gaming text-white font-semibold text-sm hover:opacity-90 active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="btn-shine w-full py-3.5 rounded-xl bg-gradient-gaming text-white font-semibold text-sm hover:opacity-90 active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 overflow-hidden"
           >
             {loading ? (
               <>
@@ -206,11 +248,13 @@ export default function OrderPage() {
             )}
           </button>
 
-          <p className="text-xs text-gray-600 text-center">
-            Odpiszę w ciągu 24h z wyceną i terminem realizacji. Nie pobieramy zaliczki przed potwierdzeniem.
+          <p className="text-xs text-gray-600 text-center font-mono">
+            Odpiszę w ciągu 24h z wyceną i terminem realizacji.
           </p>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   )
 }
+

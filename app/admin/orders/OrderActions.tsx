@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 const STATUS_OPTIONS = [
-  { value: 'nowe',         label: 'Nowe',         cls: 'text-neon-cyan  border-neon-cyan/40  bg-neon-cyan/10'  },
-  { value: 'w_realizacji', label: 'W realizacji', cls: 'text-yellow-400 border-yellow-500/40 bg-yellow-500/10' },
-  { value: 'zrealizowane', label: 'Zrealizowane', cls: 'text-neon-green border-neon-green/40 bg-neon-green/10' },
+  { value: 'nowe',         label: 'Nowe',         activeClass: 'text-neon-cyan  border-neon-cyan/40  bg-neon-cyan/10' },
+  { value: 'w_realizacji', label: 'W realizacji', activeClass: 'text-yellow-400 border-yellow-500/40 bg-yellow-500/10' },
+  { value: 'zrealizowane', label: 'Zrealizowane', activeClass: 'text-neon-green border-neon-green/40 bg-neon-green/10' },
 ]
 
 interface Props {
@@ -63,22 +63,29 @@ export default function OrderActions({ orderId, currentStatus, email }: Props) {
   const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(email)}&su=${encodeURIComponent('Odpowiedź na zamówienie wydruku 3D')}`
 
   return (
-    <div className="mt-4 pt-4 border-t border-dark-border flex flex-wrap items-center gap-2">
-      <span className="text-xs text-gray-500 mr-1">Status:</span>
-      {STATUS_OPTIONS.map(opt => (
-        <button
-          key={opt.value}
-          onClick={() => updateStatus(opt.value)}
-          disabled={loading}
-          className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-200 disabled:opacity-60 ${
-            currentStatus === opt.value
-              ? opt.cls + ' cursor-default'
-              : 'text-gray-500 border-dark-border hover:border-gray-500 cursor-pointer'
-          }`}
-        >
-          {currentStatus === opt.value && '● '}{opt.label}
-        </button>
-      ))}
+    <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-dark-border/60">
+      <span className="text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono mr-1">Status:</span>
+
+      {STATUS_OPTIONS.map(opt => {
+        const isActive = currentStatus === opt.value
+        return (
+          <button
+            key={opt.value}
+            onClick={() => updateStatus(opt.value)}
+            disabled={loading || isActive}
+            className={`
+              flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-200 disabled:cursor-default
+              ${isActive
+                ? opt.activeClass
+                : 'text-gray-600 border-dark-border hover:border-gray-500 hover:text-gray-300 cursor-pointer'
+              }
+            `}
+          >
+            {isActive && <span className="w-1.5 h-1.5 rounded-full bg-current" />}
+            {opt.label}
+          </button>
+        )
+      })}
 
       <div className="flex-1" />
 
@@ -86,17 +93,17 @@ export default function OrderActions({ orderId, currentStatus, email }: Props) {
         href={gmailUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-gaming text-white text-xs font-medium hover:opacity-90 transition-all"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-gaming text-white text-xs font-medium hover:opacity-90 transition-opacity"
       >
-        ✉️ Odpowiedz w Gmail
+        ✉ Gmail
       </a>
 
       <button
         onClick={deleteOrder}
         disabled={loading}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neon-red/40 text-neon-red text-xs font-medium hover:bg-neon-red hover:text-white transition-all duration-200 disabled:opacity-50"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neon-red/30 text-neon-red text-xs font-medium hover:bg-neon-red/10 transition-all duration-200 disabled:opacity-50"
       >
-        🗑 Usuń
+        ✕ Usuń
       </button>
     </div>
   )

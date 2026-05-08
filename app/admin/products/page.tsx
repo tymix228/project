@@ -12,53 +12,63 @@ export default async function AdminProductsPage() {
   const { products, total } = await getAllProductsAdmin()
 
   return (
-    <div className="p-8">
+    <div className="p-6 lg:p-8">
+      {/* Nagłówek */}
       <div className="flex items-center justify-between mb-8">
         <div>
+          <p className="text-xs text-gray-600 font-mono uppercase tracking-widest mb-1">Admin / Produkty</p>
           <h1 className="font-display text-2xl font-bold gradient-text">Produkty</h1>
-          <p className="text-gray-500 text-sm mt-1">{total} produktów łącznie</p>
+          <p className="text-gray-500 text-sm mt-1">
+            <span className="font-mono text-neon-cyan">{total}</span> produktów łącznie
+          </p>
         </div>
         <Link href="/admin/products/new">
-          <Button>+ Dodaj produkt</Button>
+          <Button className="btn-shine">+ Dodaj produkt</Button>
         </Link>
       </div>
 
       {products.length === 0 ? (
-        <div className="text-center py-20">
+        <div className="text-center py-20 bg-dark-surface border border-dark-border rounded-2xl">
           <p className="text-5xl mb-4">📦</p>
           <p className="text-gray-500">Brak produktów. Dodaj pierwszy!</p>
         </div>
       ) : (
-        <div className="bg-dark-surface border border-dark-border rounded-xl overflow-hidden">
+        <div className="bg-dark-surface border border-dark-border rounded-2xl overflow-hidden">
+          {/* Top accent */}
+          <div className="h-px bg-gradient-gaming opacity-30" />
+
           <table className="w-full">
             <thead>
-              <tr className="border-b border-dark-border">
-                <th className="text-left px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+              <tr className="border-b border-dark-border bg-dark-bg/30">
+                <th className="text-left px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono">
                   Produkt
                 </th>
-                <th className="text-left px-4 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 hidden md:table-cell">
+                <th className="text-left px-4 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono hidden md:table-cell">
                   Kategoria
                 </th>
-                <th className="text-left px-4 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <th className="text-left px-4 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono">
                   Cena
                 </th>
-                <th className="text-left px-4 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 hidden sm:table-cell">
+                <th className="text-left px-4 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono hidden sm:table-cell">
                   Magazyn
                 </th>
-                <th className="text-left px-4 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 hidden lg:table-cell">
+                <th className="text-left px-4 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono hidden lg:table-cell">
                   Status
                 </th>
-                <th className="text-right px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <th className="text-right px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono">
                   Akcje
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-dark-border">
               {products.map(product => (
-                <tr key={product.id} className="hover:bg-dark-card/50 transition-colors">
+                <tr
+                  key={product.id}
+                  className="group hover:bg-neon-cyan/3 transition-colors duration-150"
+                >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-dark-bg">
+                      <div className="relative w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 bg-dark-bg border border-dark-border group-hover:border-neon-cyan/20 transition-colors">
                         <Image
                           src={getProductImageSrc(product.images)}
                           alt={product.name}
@@ -68,7 +78,7 @@ export default async function AdminProductsPage() {
                         />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-sm font-medium text-gray-200 truncate max-w-[200px]">
+                        <p className="text-sm font-medium text-gray-200 truncate max-w-[180px] group-hover:text-neon-cyan transition-colors duration-150">
                           {product.name}
                         </p>
                         <div className="flex gap-1 mt-0.5">
@@ -80,27 +90,28 @@ export default async function AdminProductsPage() {
                     </div>
                   </td>
                   <td className="px-4 py-4 hidden md:table-cell">
-                    <span className="text-xs text-gray-400 capitalize">{product.category}</span>
+                    <span className="text-xs text-gray-500 capitalize font-mono">{product.category}</span>
                   </td>
                   <td className="px-4 py-4">
-                    <p className="font-mono text-sm text-neon-green font-bold">
+                    <p className="font-mono text-sm text-neon-green font-bold" style={{ textShadow: '0 0 10px rgba(0,255,136,0.3)' }}>
                       {formatPrice(product.price)}
                     </p>
                   </td>
                   <td className="px-4 py-4 hidden sm:table-cell">
-                    <span className={`text-sm font-mono ${product.stock === 0 ? 'text-neon-red' : 'text-gray-400'}`}>
-                      {product.stock}
+                    <span className={`text-sm font-mono font-bold ${
+                      product.stock === 0 ? 'text-neon-red' : product.stock <= 3 ? 'text-yellow-400' : 'text-gray-400'
+                    }`}>
+                      {product.stock === 0 ? '✕ 0' : product.stock}
                     </span>
                   </td>
                   <td className="px-4 py-4 hidden lg:table-cell">
-                    <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                        product.isActive
-                          ? 'bg-neon-green/10 text-neon-green border border-neon-green/30'
-                          : 'bg-gray-700/30 text-gray-500 border border-gray-700'
-                      }`}
-                    >
-                      {product.isActive ? '● Aktywny' : '○ Ukryty'}
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
+                      product.isActive
+                        ? 'bg-neon-green/10 text-neon-green border-neon-green/25'
+                        : 'bg-dark-bg text-gray-600 border-dark-border'
+                    }`}>
+                      <span className={`w-1.5 h-1.5 rounded-full ${product.isActive ? 'bg-neon-green animate-pulse' : 'bg-gray-600'}`} />
+                      {product.isActive ? 'Aktywny' : 'Ukryty'}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
