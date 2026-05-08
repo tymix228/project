@@ -11,6 +11,7 @@ import { SITE_NAME } from '@/lib/constants'
 const navLinks = [
   { href: '/',         label: 'Główna' },
   { href: '/products', label: 'Sklep' },
+  { href: '/order',    label: 'Zamów wydruk' },
   { href: '/contact',  label: 'Kontakt' },
 ]
 

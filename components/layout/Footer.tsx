@@ -16,8 +16,9 @@ const footerLinks = [
   {
     title: 'Informacje',
     links: [
-      { label: 'Mój koszyk', href: '/cart' },
-      { label: 'Kontakt',    href: '/contact' },
+      { label: 'Mój koszyk',    href: '/cart' },
+      { label: 'Zamów wydruk',  href: '/order' },
+      { label: 'Kontakt',       href: '/contact' },
     ],
   },
 ]
