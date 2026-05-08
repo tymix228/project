@@ -32,8 +32,27 @@ export const metadata: Metadata = {
     template: '%s | NeonForge Store',
   },
   description:
-    'Sklep z produktami drukowanymi w 3D dla graczy, cosplayerów i pasjonatów futurystycznego designu.',
-  keywords: ['druk 3D', 'gaming', 'figurki', 'akcesoria', 'cosplay', 'sklep'],
+    'Sklep z produktami drukowanymi w 3D dla graczy, cosplayerów i pasjonatów futurystycznego designu. Figurki, akcesoria, cosplay — precyzja 0.1mm.',
+  keywords: ['druk 3D', 'gaming', 'figurki', 'akcesoria', 'cosplay', 'sklep', 'PLA', 'PETG', 'Resin', 'wydruk 3D na zamówienie'],
+  authors: [{ name: 'NeonForge Store' }],
+  creator: 'NeonForge Store',
+  openGraph: {
+    title: 'NeonForge Store — Druk 3D dla Graczy',
+    description: 'Precyzyjnie wydrukowane figurki, akcesoria i gadżety dla graczy i twórców. Precyzja 0.1mm.',
+    type: 'website',
+    locale: 'pl_PL',
+    siteName: 'NeonForge Store',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'NeonForge Store — Druk 3D dla Graczy',
+    description: 'Precyzyjnie wydrukowane figurki, akcesoria i gadżety dla graczy i twórców.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  themeColor: '#00F5FF',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

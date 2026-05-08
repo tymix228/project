@@ -3,10 +3,10 @@
 import { useState } from 'react'
 
 const FILE_SITES = [
-  { name: 'Bambu Lab MakerWorld', url: 'https://makerworld.com',         icon: '🟠' },
-  { name: 'Printables',           url: 'https://www.printables.com',     icon: '🔴' },
-  { name: 'Thingiverse',          url: 'https://www.thingiverse.com',    icon: '🔵' },
-  { name: 'MyMiniFactory',        url: 'https://www.myminifactory.com',  icon: '🟢' },
+  { name: 'Bambu Lab MakerWorld', url: 'https://makerworld.com',        abbr: 'BL',  color: '#FF6B00', border: 'rgba(255,107,0,0.3)',  bg: 'rgba(255,107,0,0.08)'  },
+  { name: 'Printables',           url: 'https://www.printables.com',    abbr: 'PR',  color: '#FF3D3D', border: 'rgba(255,61,61,0.3)',   bg: 'rgba(255,61,61,0.08)'  },
+  { name: 'Thingiverse',          url: 'https://www.thingiverse.com',   abbr: 'TV',  color: '#00B4FF', border: 'rgba(0,180,255,0.3)',   bg: 'rgba(0,180,255,0.08)'  },
+  { name: 'MyMiniFactory',        url: 'https://www.myminifactory.com', abbr: 'MMF', color: '#00FF88', border: 'rgba(0,255,136,0.3)',   bg: 'rgba(0,255,136,0.08)'  },
 ]
 
 const COLORS = [
@@ -125,21 +125,34 @@ export default function OrderPage() {
         </div>
 
         {/* Linki do serwisów */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-          {FILE_SITES.map(site => (
-            <a
-              key={site.name}
-              href={site.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center gap-2 p-4 rounded-xl bg-dark-surface border border-dark-border hover:border-neon-cyan/40 hover:bg-dark-card transition-all duration-200 text-center group"
-            >
-              <span className="text-2xl">{site.icon}</span>
-              <span className="text-xs text-gray-400 group-hover:text-neon-cyan transition-colors leading-tight">
-                {site.name}
-              </span>
-            </a>
-          ))}
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono mb-3 text-center">
+            Popularne serwisy z modelami
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+            {FILE_SITES.map(site => (
+              <a
+                key={site.name}
+                href={site.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col items-center gap-2.5 p-4 rounded-xl bg-dark-surface border border-dark-border transition-all duration-200 text-center hover:-translate-y-1 overflow-hidden relative"
+                style={{ '--site-color': site.color } as React.CSSProperties}
+              >
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-0 group-hover:w-3/4 rounded-full transition-all duration-400"
+                  style={{ background: site.color }} />
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-mono font-black flex-shrink-0 transition-all duration-200 group-hover:scale-110"
+                  style={{ color: site.color, background: site.bg, border: `1px solid ${site.border}` }}
+                >
+                  {site.abbr}
+                </div>
+                <span className="text-xs text-gray-500 group-hover:text-gray-200 transition-colors leading-tight font-medium">
+                  {site.name}
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Formularz */}

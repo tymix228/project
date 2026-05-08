@@ -228,14 +228,19 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             </Button>
 
             {/* Info o zamówieniu indywidualnym */}
-            <div className="mt-4 p-3 rounded-xl bg-neon-cyan/5 border border-neon-cyan/15 flex items-start gap-3">
-              <span className="text-lg flex-shrink-0">🖨️</span>
-              <div>
-                <p className="text-xs font-semibold text-neon-cyan/80">Chcesz własny wariant?</p>
-                <p className="text-xs text-gray-600 mt-0.5">
-                  <Link href="/order" className="text-neon-cyan hover:underline">Zamów wydruk</Link>
-                  {' '}z własnego pliku lub innym kolorem
-                </p>
+            <div className="mt-4 rounded-xl overflow-hidden">
+              <div className="h-px bg-gradient-to-r from-neon-cyan/40 via-neon-purple/40 to-transparent" />
+              <div className="p-3 bg-neon-cyan/4 border border-x border-b border-neon-cyan/10 rounded-b-xl flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-neon-cyan/10 border border-neon-cyan/20 flex items-center justify-center flex-shrink-0 text-base">
+                  🖨️
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-neon-cyan/80 font-mono uppercase tracking-wider mb-0.5">Własny wariant?</p>
+                  <p className="text-xs text-gray-600">
+                    <Link href="/order" className="text-neon-cyan hover:underline font-medium">Zamów wydruk</Link>
+                    {' '}ze swojego pliku STL lub w innym kolorze
+                  </p>
+                </div>
               </div>
             </div>
           </div>

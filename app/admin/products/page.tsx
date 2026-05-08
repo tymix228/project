@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getAllProductsAdmin } from '@/lib/products'
 import { formatPrice, getProductImageSrc } from '@/lib/utils'
+import { CATEGORIES } from '@/lib/constants'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import DeleteProductButton from './DeleteProductButton'
@@ -78,10 +79,15 @@ export default async function AdminProductsPage() {
                         />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-sm font-medium text-gray-200 truncate max-w-[180px] group-hover:text-neon-cyan transition-colors duration-150">
-                          {product.name}
-                        </p>
-                        <div className="flex gap-1 mt-0.5">
+                        <div className="flex items-center gap-1.5 mb-0.5">
+                          <p className="text-sm font-medium text-gray-200 truncate max-w-[160px] group-hover:text-neon-cyan transition-colors duration-150">
+                            {product.name}
+                          </p>
+                          {product.isFeatured && (
+                            <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-neon-gold" title="Polecany" />
+                          )}
+                        </div>
+                        <div className="flex gap-1">
                           {product.tags.slice(0, 2).map(tag => (
                             <Badge key={tag} tag={tag} />
                           ))}
@@ -90,7 +96,12 @@ export default async function AdminProductsPage() {
                     </div>
                   </td>
                   <td className="px-4 py-4 hidden md:table-cell">
-                    <span className="text-xs text-gray-500 capitalize font-mono">{product.category}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm">{CATEGORIES.find(c => c.value === product.category)?.icon}</span>
+                      <span className="text-xs text-gray-500 font-mono">
+                        {CATEGORIES.find(c => c.value === product.category)?.label || product.category}
+                      </span>
+                    </div>
                   </td>
                   <td className="px-4 py-4">
                     <p className="font-mono text-sm text-neon-green font-bold" style={{ textShadow: '0 0 10px rgba(0,255,136,0.3)' }}>
